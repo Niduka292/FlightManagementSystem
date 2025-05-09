@@ -9,11 +9,11 @@ import com.util.JDBCUtil;
 
 public class UserService {
     
-    static Connection conn = JDBCUtil.getConnection();
-    static PreparedStatement pst;
-    
+   
     public static boolean createCustomer(UserDTO user){
         
+        Connection conn = null;
+        PreparedStatement pst = null;
         int rowsAffected = 0;
         CustomerDTO customer = null;
         boolean customerAdded = false;
@@ -28,6 +28,7 @@ public class UserService {
         }
         
         try{
+            conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(insertQuery);
             pst.setString(1, customer.getUserID());
             pst.setString(2, customer.getEmail());
@@ -64,6 +65,8 @@ public class UserService {
     
     public static boolean createOperator(UserDTO user){
         
+        Connection conn = null;
+        PreparedStatement pst = null;
         int rowsAffected = 0;
         OperatorDTO operator = null;
         boolean operatorAdded = false;
@@ -78,6 +81,7 @@ public class UserService {
         }
         
         try{
+            conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(insertQuery);
             pst.setString(1, operator.getUserID());
             pst.setString(2, operator.getEmail());
@@ -115,6 +119,8 @@ public class UserService {
     
     public static boolean createAdmin(UserDTO user){
         
+        Connection conn = null;
+        PreparedStatement pst = null;
         int rowsAffected = 0;
         AdministratorDTO admin = null;
         boolean adminAdded = false;
@@ -129,6 +135,7 @@ public class UserService {
         }
         
         try{
+            conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(insertQuery);
             pst.setString(1, admin.getUserID());
             pst.setString(2, admin.getEmail());
