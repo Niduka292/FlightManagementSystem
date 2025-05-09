@@ -54,7 +54,7 @@ public class AirportDTO {
     public AirportDTO(String airportName, String city, String country, String continent) {
         
         if(airportName != null && airportName.trim().length() >= 4){
-            airportID = airportName.toUpperCase().trim().substring(0, 4); 
+            airportID = airportName.toUpperCase().trim().substring(0, 3); 
             // Auto generate airportID according to the airport name
         }else if(airportName != null){
             airportID = airportName.toUpperCase().trim();

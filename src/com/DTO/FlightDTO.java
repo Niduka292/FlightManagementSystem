@@ -12,10 +12,13 @@ public class FlightDTO {
     private AirportDTO departingAirport;
     private AirportDTO destination;
     private AircraftDTO aircraft;
-    private List<AirportDTO> transitAirports;
-    private List<CustomerDTO> customers;
-    private List<Seat> seats;
-    private static int flightIdIndex = 0;
+    private List<AirportDTO> transitAirports = new ArrayList<>();
+    private List<CustomerDTO> customers = new ArrayList<>();
+    private List<Seat> seats = new ArrayList<>();
+    private static int flightIdIndex = 1;
+
+    public FlightDTO() {
+    }
     
     public String getFlightID() {
         return flightID;
@@ -93,7 +96,8 @@ public class FlightDTO {
             index = String.valueOf(flightIdIndex);
         }
         
-        flightID = departingAirport.getAirportID()+index; // Auto generate flightID consisting 7 characters
+        flightID = departingAirport.getAirportID()+"-"+index; // Auto generate flightID consisting 7 characters
+        
 
         setFlightID(flightID);
         setDepartureDate(departureDate);
@@ -102,57 +106,10 @@ public class FlightDTO {
         setAircraft(aircraft);
         setTransitAirports(transitAirports);
         setCustomers(customers);
+        flightIdIndex++;
 
-        List<Seat> seatList = new ArrayList<>();
-
-        if (aircraft != null) { // Null check for safety
-            for (int i = 1; i <= aircraft.getNoOfFirstClassSeats(); i++) {
-                
-                String zeroPaddingFirstClass;
-                if(i < 10){
-                    zeroPaddingFirstClass = "F-00";
-                }else if(i < 100){
-                    zeroPaddingFirstClass = "F-0";
-                }else{
-                    zeroPaddingFirstClass = "F-";
-                }
-                
-                Seat seat = new Seat(zeroPaddingFirstClass + i, ServiceClass.FIRST);
-                seatList.add(seat);
-            }
-
-            for (int i = 1; i <= aircraft.getNoOfBusinessSeats(); i++) {
-                
-                String zeroPaddingBusinessClass;
-                if(i < 10){
-                    zeroPaddingBusinessClass = "B-00";
-                }else if(i < 100){
-                    zeroPaddingBusinessClass = "B-0";
-                }else{
-                    zeroPaddingBusinessClass = "B-";
-                }
-                
-                Seat seat = new Seat(zeroPaddingBusinessClass+ i, ServiceClass.BUSINESS);
-                seatList.add(seat);
-            }
-
-            for (int i = 1; i <= aircraft.getNoOfEconomySeats(); i++) {
-                
-                String zeroPaddingEconomyClass;
-                if(i < 10){
-                    zeroPaddingEconomyClass = "E-000";
-                }else if(i < 100){
-                    zeroPaddingEconomyClass = "E-00";
-                }else if(i < 1000){
-                    zeroPaddingEconomyClass = "E-0";
-                }else{
-                    zeroPaddingEconomyClass = "E-";
-                }
-                Seat seat = new Seat(flightID+"-"+zeroPaddingEconomyClass + i, ServiceClass.ECONOMY);
-                seatList.add(seat);
-            }
-        }
-
+        
+        List<Seat> seatList = Seat.createSeatList(this, aircraft);
         setSeats(seatList);
 
     }
