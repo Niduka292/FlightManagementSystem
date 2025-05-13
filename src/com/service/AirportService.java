@@ -50,9 +50,8 @@ public class AirportService {
         return airportAdded;
     }
     
-    public static AirportDTO getAirportById(String airportId){
+    public static AirportDTO getAirportById(String airportId, Connection conn){
         
-        Connection conn = null;
         PreparedStatement pst = null;
         AirportDTO airport = null;
         ResultSet rs = null;
@@ -60,7 +59,6 @@ public class AirportService {
         String selectQuery = "SELECT * FROM airports_table where airport_id = ?";
         
         try{
-            conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
             pst.setString(1, airportId);
             rs = pst.executeQuery();

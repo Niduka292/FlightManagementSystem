@@ -92,10 +92,10 @@ public class FlightService {
                 ZonedDateTime departureZdt = JDBCUtil.convertStringToZonedDateTime(rs.getString(2));
                 flight.setDepartureDate(departureZdt);
                 
-                AirportDTO departingAirport = AirportService.getAirportById(rs.getString(3));
+                AirportDTO departingAirport = AirportService.getAirportById(rs.getString(3),conn);
                 flight.setDepartingAirport(departingAirport);
                 
-                AirportDTO destinationAirport = AirportService.getAirportById(rs.getString(4));
+                AirportDTO destinationAirport = AirportService.getAirportById(rs.getString(4),conn);
                 flight.setDestination(destinationAirport);
                 
                 Array transitAirportArray = rs.getArray("transit_airports_id"); // Get the SQL Array
@@ -103,7 +103,7 @@ public class FlightService {
                 
                 List<AirportDTO> transitAirports = new ArrayList<>();
                 for(String airportId : transitAirportIds){
-                    transitAirports.add(AirportService.getAirportById(airportId));
+                    transitAirports.add(AirportService.getAirportById(airportId,conn));
                 }
                 flight.setTransitAirports(transitAirports);
                 
@@ -119,7 +119,7 @@ public class FlightService {
                 
                 List<CustomerDTO> customers = new ArrayList<>();
                 for(long customerid : customerIds){
-                    customers.add(UserService.getCustomerById(customerid));
+                    customers.add(UserService.getCustomerById(customerid,conn));
                 }
                 flight.setCustomers(customers);
                 
@@ -131,7 +131,7 @@ public class FlightService {
                     
                     if(strSeatId != null && !strSeatId.isEmpty()){
                         long seatId = Long.parseLong(strSeatId);
-                        Seat seat = SeatService.getSeatById(seatId);
+                        Seat seat = SeatService.getSeatById(seatId,conn);
                         seat.setFlight(flight);
                         seats.add(seat);
                     }
@@ -190,15 +190,15 @@ public class FlightService {
                 ZonedDateTime departureZdt = JDBCUtil.convertStringToZonedDateTime(rs.getString("departure_utc_time"));
                 flight.setDepartureDate(departureZdt);
                 
-                flight.setDepartingAirport(AirportService.getAirportById(rs.getString("departing_airport_id")));
-                flight.setDestination(AirportService.getAirportById(rs.getString("destination_airport_id")));
+                flight.setDepartingAirport(AirportService.getAirportById(rs.getString("departing_airport_id"),conn));
+                flight.setDestination(AirportService.getAirportById(rs.getString("destination_airport_id"),conn));
                 
                 Array transitAirportArray = rs.getArray("transit_airports_id"); // Get the SQL Array
                 String[] transitAirportIds = (String[]) transitAirportArray.getArray(); // Convert it to a Java array
                 
                 List<AirportDTO> transitAirports = new ArrayList<>();
                 for(String airportId : transitAirportIds){
-                    transitAirports.add(AirportService.getAirportById(airportId));
+                    transitAirports.add(AirportService.getAirportById(airportId,conn));
                 }
                 flight.setTransitAirports(transitAirports);
                 
@@ -214,7 +214,7 @@ public class FlightService {
                 
                 List<CustomerDTO> customers = new ArrayList<>();
                 for(long customerid : customerIds){
-                    customers.add(UserService.getCustomerById(customerid));
+                    customers.add(UserService.getCustomerById(customerid,conn));
                 }
                 flight.setCustomers(customers);
                 
@@ -225,7 +225,7 @@ public class FlightService {
                     
                     if(strSeatId != null && !strSeatId.isEmpty()){
                         long seatId = Long.parseLong(strSeatId);
-                        Seat seat = SeatService.getSeatById(seatId);
+                        Seat seat = SeatService.getSeatById(seatId,conn);
                         seat.setFlight(flight);
                         seats.add(seat);
                     }
@@ -266,25 +266,28 @@ public class FlightService {
         
     }
         
-    public static FlightDTO getFlightBasicById(long flightId) {
+    public static FlightDTO getFlightBasicById(long flightId, Connection conn) {
+        
         FlightDTO flight = new FlightDTO();
-        Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
 
         String query = "SELECT flight_id, departure_utc_time, departing_airport_id, destination_airport_id, aircraft_id FROM flights_table WHERE flight_id = ?";
 
         try {
-            conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(query);
             pst.setLong(1, flightId);
             rs = pst.executeQuery();
 
             if (rs.next()) {
+                
+                AirportDTO departingAirport = AirportService.getAirportById(rs.getString("departing_airport_id"),conn);
+                AirportDTO destinationAirport = AirportService.getAirportById(rs.getString("destination_airport_id"),conn);
+                
                 flight.setFlightID(rs.getLong("flight_id"));
                 flight.setDepartureDate(JDBCUtil.convertStringToZonedDateTime(rs.getString("departure_utc_time")));
-                flight.setDepartingAirport(AirportService.getAirportById(rs.getString("departing_airport_id")));
-                flight.setDestination(AirportService.getAirportById(rs.getString("destination_airport_id")));
+                flight.setDepartingAirport(departingAirport);
+                flight.setDestination(destinationAirport);
                 flight.setAircraft(AircraftService.getAircraftById(rs.getString("aircraft_id")));
             }
 

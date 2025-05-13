@@ -173,12 +173,11 @@ public class UserService {
     
     
     
-    public static CustomerDTO getCustomerById(long userId){
+    public static CustomerDTO getCustomerById(long userId, Connection conn){
         
         UserDTO user = new UserDTO();
         CustomerDTO customer = (CustomerDTO) user;
         
-        Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
         
@@ -186,8 +185,6 @@ public class UserService {
         
         try{
             
-            
-            conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
             pst.setLong(1, userId);
             rs = pst.executeQuery();

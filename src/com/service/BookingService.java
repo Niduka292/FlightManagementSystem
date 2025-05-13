@@ -6,63 +6,66 @@ import com.util.JDBCUtil;
 import com.DTO.BookingDTO;
 import com.DTO.FlightDTO;
 import com.DTO.ServiceClass;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookingService {
-    
-    public static void createBooking(BookingDTO booking){
         
-        Connection conn = null;
-        PreparedStatement pst = null;
-        
-        boolean bookSeat = SeatService.bookSeat(booking.getSeat().getSeatNo(),
-                booking.getCustomer(),booking.getFlight().getFlightID(),booking.getDepartingAirport(),booking.getDestination());
-        
-        String insertQuery = "INSERT INTO bookings_table(booking_date"
-                + ",class_of_service,departing_airport_id,destination_airport_id"
-                + ",flight_id,seat_id,customer_id) values(?,?,?,?,?,?,?)";
-        
-        int rowsAffected = 0;
-        
-        if (booking.getSeat() == null || booking.getFlight() == null || booking.getCustomer() == null) {
+    public static boolean createBooking(BookingDTO booking){
+        if(booking == null || booking.getSeat() == null || booking.getFlight() == null || booking.getCustomer() == null){
             System.out.println("Booking has missing details. Cannot proceed.");
-        }
-        
-        if (!bookSeat) {
-            System.out.println("Seat booking failed. Booking not inserted.");
+            return false;
         }
 
-        
+        FlightDTO flight = booking.getFlight();
+        ZonedDateTime departureTime = flight.getDepartureDate();
+        ZonedDateTime now = ZonedDateTime.now();
+
+        if(!departureTime.minusMinutes(30).isAfter(now)){
+            System.out.println("Cannot book seat less than 30 minutes before departure.");
+            return false;
+        }
+
+        boolean seatBooked = SeatService.bookSeat(booking.getSeat().getSeatNo(), flight.getFlightID());
+        if(!seatBooked){
+            System.out.println("Seat booking failed. Booking not inserted.");
+            return false;
+        }
+
+        Connection conn = null;
+        PreparedStatement pst = null;
+        boolean bookingInserted = false;
+
         try{
-            
-            Instant instant = booking.getBookedDate().toInstant();
-            Timestamp timestamp = Timestamp.from(instant);
-            
             conn = JDBCUtil.getConnection();
+
+            String insertQuery = "INSERT INTO bookings_table(booking_date,class_of_service,"
+                    + "departing_airport_id,destination_airport_id,flight_id,seat_id,"
+                    + "customer_id) VALUES (?,?,?,?,?,?,?)";
             pst = conn.prepareStatement(insertQuery);
-            
+
+            Timestamp timestamp = Timestamp.from(booking.getBookedDate().toInstant());
+
             pst.setTimestamp(1, timestamp);
             pst.setString(2, booking.getClassOfService().toString());
             pst.setString(3, booking.getDepartingAirport().getAirportCode());
             pst.setString(4, booking.getDestination().getAirportCode());
-            pst.setLong(5, booking.getFlight().getFlightID());
-            pst.setString(6, booking.getSeat().getSeatNo());
+            pst.setLong(5, flight.getFlightID());
+            pst.setLong(6, booking.getSeat().getSeatId());
             pst.setLong(7, booking.getCustomer().getUserID());
-            
-            rowsAffected = pst.executeUpdate();
-            
-            if(rowsAffected > 0){
-                System.out.println("Seat "+booking.getSeat().getSeatNo()+" of flight "+
-                booking.getFlight().getFlightID()+" was booked successfully.");
+
+            bookingInserted = pst.executeUpdate() > 0;
+
+            if(bookingInserted){
+                System.out.println("Seat " + booking.getSeat().getSeatNo() +
+                        " of flight " + flight.getFlightID() + " was booked successfully.");
             }
-            
+
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
-            try{
+            try {
                 if(pst != null){
                     pst.close();
                 }
@@ -74,9 +77,11 @@ public class BookingService {
                 e.printStackTrace();
             }
         }
-        
+
+        return bookingInserted;
     }
-        
+
+    
     public static List<BookingDTO> displayAllBookings(){
         
         Connection conn = null;
@@ -92,7 +97,9 @@ public class BookingService {
             
             while(rs.next()){
                                 
-                AirportDTO departingAirport = AirportService.getAirportById(rs.getString("departing_airport_id"));
+                AirportDTO departingAirport = AirportService.getAirportById(rs.getString("departing_airport_id"),conn);
+                AirportDTO destinationAirport = AirportService.getAirportById(rs.getString("destination_airport_id"),conn);
+                
                 String departingContinent = departingAirport.getContinent();
                 String departingCity = departingAirport.getCity();
 
@@ -100,17 +107,16 @@ public class BookingService {
                 
                 ZonedDateTime zdt = JDBCUtil.convertTimeStampToZoneDate(departingContinent, departingCity, timestamp);
                 
-               
                 
                 BookingDTO booking = new BookingDTO();
                 booking.setBookingID(rs.getLong(1));
                 booking.setBookedDate(zdt);
                 booking.setClassOfService(ServiceClass.valueOf(rs.getString(3)));
-                booking.setDepartingAirport(AirportService.getAirportById(rs.getString(4)));
-                booking.setDestination(AirportService.getAirportById(rs.getString(5)));
+                booking.setDepartingAirport(departingAirport);
+                booking.setDestination(destinationAirport);
                 booking.setFlight(FlightService.getFlightById(rs.getLong(6)));
-                booking.setSeat(SeatService.getSeatById(rs.getLong(7)));
-                booking.setCustomer(UserService.getCustomerById(rs.getLong(8)));
+                booking.setSeat(SeatService.getSeatById(rs.getLong(7),conn));
+                booking.setCustomer(UserService.getCustomerById(rs.getLong(8),conn));
                 
                 bookings.add(booking);
             }

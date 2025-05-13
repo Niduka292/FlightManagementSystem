@@ -30,7 +30,7 @@ public class JDBCUtil {
         }
         
         if(conn != null){
-            System.out.println("Connection established successfully");
+            //System.out.println("Connection established successfully");
         }else{
             System.out.println("Connection failed. Recheck username and password.");
         }

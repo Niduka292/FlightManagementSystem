@@ -9,6 +9,7 @@ import com.DTO.ServiceClass;
 import java.sql.*;
 import com.util.JDBCUtil;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -105,106 +106,26 @@ public class SeatService {
         return isBooked;
     }
     
-    
-    public static boolean bookSeat(String seatNo, CustomerDTO customer, long flightId,
-            AirportDTO origin, AirportDTO destination){
-        
-        if(seatNo == null || customer == null || origin == null || destination == null){
-            System.out.println("Invalid parameters.");
+    public static boolean bookSeat(String seatNo, long flightId) {
+        if (seatNo == null || seatNo.isEmpty()) {
+            System.out.println("Seat number is invalid.");
             return false;
         }
-        
-        Seat seat = getSeatBySeatNo(seatNo,flightId);
-        if(seat == null){
-            System.out.println("Seat "+seatNo+" not found for flight "+flightId);
-            return false;
-        }
-        
-        boolean isPrevBooked = checkIsSeatBooked(seatNo,flightId);
-        if(isPrevBooked){
-            System.out.println("Seat "+seatNo+" is already booked");
-            return false;
-        }
-        
-        Connection conn = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-        boolean isNowBooked = false;
-        
-        ZonedDateTime zdtNow = ZonedDateTime.now();
-        FlightDTO flight = FlightService.getFlightById(flightId);
-        
-        if(flight == null){
-            System.out.println("Flight "+flightId+" was not found");
-            return false;
-        }
-        
-        if(!flight.getDepartureDate().minusMinutes(30).isAfter(zdtNow)){
-            System.out.println("Cannot book seat less than 30 minutes before departure");
-            return false;
-        }
-        
-        BookingDTO booking = new BookingDTO();
-        booking.setCustomer(customer);
-        booking.setSeat(seat);
-        booking.setFlight(flight);
-        booking.setClassOfService(seat.getClassOfService());
-        booking.setBookedDate(zdtNow);
-        booking.setDepartingAirport(origin);
-        booking.setDestination(destination);
-        
-        if(!updateSeatStatus(seatNo, flightId, true)){
-            return false;
-        }
-        
-        String selectQuery = "SELECT is_booked FROM seats_table where seat_no = ? AND flight_id = ?";
-        
-        if(!isPrevBooked){
-            if(seat.getFlight().getDepartureDate().minusMinutes(30).isAfter(zdtNow)){
-                try{
-                    conn = JDBCUtil.getConnection();
-                    pst = conn.prepareStatement(selectQuery);
-                    pst.setString(1, seatNo);
-                    pst.setLong(2, flightId);
-                    rs = pst.executeQuery();
-                    
-                    if(rs.next() && !rs.getBoolean("is_booked") && seat != null && flight != null){
-                        isNowBooked = true;
-                        //booking = new BookingDTO();
-                        
-                        
-                    }else if(isPrevBooked){
-                        System.out.println("Seat is already booked.");
-                    }
-                    
-                    BookingService.createBooking(booking);
-                }catch(SQLException e){
-                    e.printStackTrace();
-                }finally{
-                    try{
-                        if(rs != null){
-                            rs.close();
-                        }
 
-                        if(pst != null){
-                            pst.close();
-                        }
-
-                        if(conn != null){
-                            conn.close();
-                        }
-
-                    }catch(SQLException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }else{
-            isNowBooked = true;
+        Seat seat = getSeatBySeatNo(seatNo, flightId);
+        if (seat == null) {
+            System.out.println("Seat " + seatNo + " not found for flight " + flightId);
+            return false;
         }
-        
-        return isNowBooked;
+
+        if (checkIsSeatBooked(seatNo, flightId)) {
+            System.out.println("Seat " + seatNo + " is already booked.");
+            return false;
+        }
+
+        return updateSeatStatus(seatNo, flightId, true);
     }
+
     
     private static boolean updateSeatStatus(String seatNo, long flightId, boolean isBooked) {
         String updateQuery = "UPDATE seats_table SET is_booked = ? WHERE seat_no = ? AND flight_id = ?";
@@ -239,10 +160,11 @@ public class SeatService {
             rs = pst.executeQuery();
             
             if(rs.next()){
-                seat.setSeatNo(rs.getString("seat_id"));
+                seat.setSeatId(rs.getLong("seat_id"));
                 seat.setIsBooked(rs.getBoolean("is_booked"));
                 seat.setClassOfService(ServiceClass.valueOf(rs.getString("class_of_service").trim().toUpperCase()));
-                seat.setFlight(FlightService.getFlightBasicById(rs.getLong("flight_id")));
+                seat.setFlight(FlightService.getFlightBasicById(rs.getLong("flight_id"),conn));
+                seat.setSeatNo(rs.getString("seat_no"));
                 
             }else{
                 System.out.println("Seat "+seatNo+" was mot found.");
@@ -273,9 +195,8 @@ public class SeatService {
         return seat;
     }
     
-    public static Seat getSeatById(long seatId){
+    public static Seat getSeatById(long seatId, Connection conn){
         
-        Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs =  null;
         Seat seat = new Seat();
@@ -283,16 +204,16 @@ public class SeatService {
         String selectQuery = "SELECT * FROM seats_table where seat_id = ?";
         
         try{
-            conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
             pst.setLong(1, seatId);
             rs = pst.executeQuery();
             
             if(rs.next()){
-                seat.setSeatNo(rs.getString("seat_id"));
+                seat.setSeatId(rs.getLong("seat_id"));
                 seat.setIsBooked(rs.getBoolean("is_booked"));
                 seat.setClassOfService(ServiceClass.valueOf(rs.getString("class_of_service").trim().toUpperCase()));
-                seat.setFlight(FlightService.getFlightBasicById(rs.getLong("flight_id")));
+                seat.setFlight(FlightService.getFlightBasicById(rs.getLong("flight_id"),conn));
+                seat.setSeatNo(rs.getString("seat_no"));
                 
             }else{
                 System.out.println("Seat "+seatId+" was mot found.");
@@ -328,7 +249,7 @@ public class SeatService {
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
-        List<Seat> seats = null;
+        List<Seat> seats = new ArrayList<>();
         
         String selectQuery = "SELECT FROM seats_table WHERE flight_id = ?";
         
@@ -342,7 +263,7 @@ public class SeatService {
                 Seat seat = new Seat();
                 seat.setSeatNo(rs.getString("seat_id"));
                 seat.setClassOfService(ServiceClass.valueOf(rs.getString("class_of_service")));
-                seat.setFlight(FlightService.getFlightBasicById(rs.getLong("flight_id")));
+                seat.setFlight(FlightService.getFlightBasicById(rs.getLong("flight_id"),conn));
                 seat.setIsBooked(rs.getBoolean("is_booked"));
                 seats.add(seat);
             }
