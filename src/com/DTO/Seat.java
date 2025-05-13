@@ -2,6 +2,7 @@ package com.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.service.SeatService;
 
 public class Seat {
     
@@ -74,13 +75,15 @@ public class Seat {
                 String seatCode = String.format("F-%04d", i); // F-001
                 Seat seat = new Seat(seatCode, flight,ServiceClass.FIRST);
                 seatList.add(seat);
-            }
+                SeatService.addSeat(seat);
+           }
 
             for (int i = 1; i <= aircraft.getNoOfBusinessSeats(); i++) {
                 
                 String seatCode = String.format("B-%04d", i);
                 Seat seat = new Seat(seatCode, flight,ServiceClass.BUSINESS);
                 seatList.add(seat);
+                SeatService.addSeat(seat);
             }
 
             for (int i = 1; i <= aircraft.getNoOfEconomySeats(); i++) {
@@ -88,6 +91,7 @@ public class Seat {
                 String seatCode = String.format("E-%04d", i);
                 Seat seat = new Seat(seatCode, flight,ServiceClass.ECONOMY);
                 seatList.add(seat);
+                SeatService.addSeat(seat);
             }
         }
         
