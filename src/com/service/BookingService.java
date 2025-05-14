@@ -12,6 +12,8 @@ import java.util.List;
 
 public class BookingService {
         
+    public static final int MAX_MINUTES_FOR_BOOKING_BEFORE_FLIGHT = 30;
+    
     public static boolean createBooking(BookingDTO booking){
         if(booking == null || booking.getSeat() == null || booking.getFlight() == null || booking.getCustomer() == null){
             System.out.println("Booking has missing details. Cannot proceed.");
@@ -22,7 +24,7 @@ public class BookingService {
         ZonedDateTime departureTime = flight.getDepartureDate();
         ZonedDateTime now = ZonedDateTime.now();
 
-        if(!departureTime.minusMinutes(30).isAfter(now)){
+        if(!departureTime.minusMinutes(MAX_MINUTES_FOR_BOOKING_BEFORE_FLIGHT).isAfter(now)){
             System.out.println("Cannot book seat less than 30 minutes before departure.");
             return false;
         }

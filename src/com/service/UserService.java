@@ -454,6 +454,45 @@ public class UserService {
         return userDeactivated;
     }
     
+    public static boolean activateUser(Long userId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        boolean userDeactivated = false;
+        
+        String updateQuery = "UPDATE users_table SET status = 'A' WHERE user_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(updateQuery);
+            pst.setLong(1, userId);
+
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Details updated successfully.");
+                userDeactivated = true;
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return userDeactivated;
+    }
+    
     public static Long getUserIdByDetails(UserDTO user){
         
         Connection conn = null;
@@ -547,6 +586,176 @@ public class UserService {
             }
         }
         return customers;
+    }
+    
+    public static void updateCustomerEmail(Long customerId, String newEmail){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        
+        String updateQuery = "UPDATE users_table SET email = ? WHERE user_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(updateQuery);
+            pst.setString(1, newEmail);
+            pst.setLong(2, customerId);
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Details updated successfully");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void updateCustomerUsername(String newUsername, Long customerId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        
+        String updateQuery = "UPDATE users_table SET username = ? WHERE user_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(updateQuery);
+            pst.setString(1, newUsername);
+            pst.setLong(2, customerId);
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Details updated successfully");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void updateCustomerAge(int newAge, Long customerId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        
+        String updateQuery = "UPDATE users_table SET age = ? WHERE user_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(updateQuery);
+            pst.setString(1, String.valueOf(newAge));
+            pst.setLong(2, customerId);
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Details updated successfully");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void updateCustomerName(String newName, Long customerId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        
+        String updateQuery = "UPDATE users_table SET name = ? WHERE user_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(updateQuery);
+            pst.setString(1, newName);
+            pst.setLong(2, customerId);
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Details updated successfully");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void updateCustomerPassportNo(String newPassportNo, Long customerId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        
+        String updateQuery = "UPDATE users_table SET passport_no = ? WHERE user_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(updateQuery);
+            pst.setString(1, newPassportNo);
+            pst.setLong(2, customerId);
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Details updated successfully");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
     
 }
