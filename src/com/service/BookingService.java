@@ -32,6 +32,12 @@ public class BookingService {
             System.out.println("Seat booking failed. Booking not inserted.");
             return false;
         }
+        
+        String strCustomerStatus = String.valueOf(booking.getCustomer().getStatus());
+        if(String.valueOf('I').equals(strCustomerStatus)){
+            System.out.println("This customer has been deactivated");
+            return false;
+        }
 
         Connection conn = null;
         PreparedStatement pst = null;
