@@ -9,15 +9,22 @@ import com.util.JDBCUtil;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.ZoneOffset;
 
 
 public class FlightService {
+
+    public static final int HOURS_OCCUPIED_BY_A_FLIGHT = 22;
     
     public static boolean scheduleFlight(FlightDTO flight){
         
         boolean flightScheduleSuccess = false;
         Connection conn = null;
         PreparedStatement pst = null;
+        
+        if(!checkAircraftAvailability(flight.getAircraft().getAircraftID(), flight.getDepartureDate())){
+            return false;
+        }
         
         String insertQuery = "INSERT INTO flights_table(departure_utc_time"
                 + ",departing_airport_id,destination_airport_id, transit_airports_id"
@@ -424,6 +431,85 @@ public class FlightService {
                 e.printStackTrace();
             }
         }
+        
+    }
+    
+    public static List<ZonedDateTime> getDepartureTimesForAircraft(String aircraftId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        List<ZonedDateTime> departureTimes = new ArrayList<>();
+        
+        String selectQuery = "SELECT departure_utc_time FROM flights_table WHERE aircraft_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            pst.setString(1, aircraftId);
+            rs = pst.executeQuery();
+            while(rs.next()){
+                
+                String utcDepartureTime = rs.getString("departure_utc_time").trim();
+                ZonedDateTime departureZdt = ZonedDateTime.parse(utcDepartureTime).withZoneSameInstant(ZoneOffset.UTC);
+                departureTimes.add(departureZdt);
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return departureTimes;
+    }
+    
+    public static ZonedDateTime getLatestDepartureForAircraft(String aircraftId){
+        
+        List<ZonedDateTime> zdtDepartures = getDepartureTimesForAircraft(aircraftId);
+        ZonedDateTime latestDeparture = zdtDepartures.get(0);
+        
+        if(zdtDepartures.size() > 1){
+            for(int i = 1; i < zdtDepartures.size();i++){
+                if(zdtDepartures.get(i).isAfter(latestDeparture)){
+                    latestDeparture = zdtDepartures.get(i);
+                }
+            }
+        }
+        
+        return latestDeparture;
+    }
+    
+    public static boolean checkAircraftAvailability(String aircrftId, ZonedDateTime flightScheduledTime){
+        
+        boolean isAvailableForFlying = false;
+        
+        ZonedDateTime normalizeScheduledTime = flightScheduledTime.withZoneSameInstant(ZoneOffset.UTC);
+        ZonedDateTime latestDepartureForAircraft = getLatestDepartureForAircraft(aircrftId);
+        
+        if(latestDepartureForAircraft == null){
+            return true;
+        }
+        
+        if(normalizeScheduledTime.isAfter(latestDepartureForAircraft.plusHours(HOURS_OCCUPIED_BY_A_FLIGHT))){
+            isAvailableForFlying = true;
+        }
+        
+        return isAvailableForFlying;
         
     }
     
