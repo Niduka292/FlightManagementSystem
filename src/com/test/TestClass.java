@@ -14,8 +14,9 @@ public class TestClass{
     public static void main(String[] args) {
 
         Connection conn = JDBCUtil.getConnection();
-
+        
         UserDTO admin1 = new AdministratorDTO("kamal123@gmail.com", 'A');
+       
         if (UserService.createAdmin(admin1)) {
             System.out.println("Admin created.");
         }
@@ -23,6 +24,7 @@ public class TestClass{
         CustomerDTO customer1 = new CustomerDTO("Adam Smith", "P12344507", 25, "adam.smith@example.com", 'A', "adamsmith", "adam123");
         CustomerDTO customer2 = new CustomerDTO("John Doe", "P1234567", 35, "john.doe@example.com", 'A', "johndoe", "john123");
 
+        
         boolean customer1Added = UserService.createCustomer(customer1);
         boolean customer2Added = UserService.createCustomer(customer2);
 
@@ -37,6 +39,7 @@ public class TestClass{
         AirportDTO transit1 = new AirportDTO("Chennai", "Chennai", "India", "Asia");
         AirportDTO transit2 = new AirportDTO("Dubai", "Dubai", "UAE", "Asia");
 
+        
         boolean airportsAdded = AirportService.addAirport(destinationAirport)
                 && AirportService.addAirport(departingAirport)
                 && AirportService.addAirport(transit1)

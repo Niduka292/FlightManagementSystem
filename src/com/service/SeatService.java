@@ -15,12 +15,13 @@ public class SeatService {
         
         Connection conn = null;
         PreparedStatement pst = null;
+        ResultSet generatedKeys = null;
         
         String insertQuery = "INSERT INTO seats_table(is_booked, class_of_service, flight_id,seat_no) VALUES(?,?,?,?)";
         
         try{
             conn = JDBCUtil.getConnection();
-            pst = conn.prepareStatement(insertQuery);
+            pst = conn.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS); 
             
             pst.setBoolean(1, seat.getIsBooked());
             pst.setString(2, seat.getClassOfService().toString());
@@ -30,6 +31,11 @@ public class SeatService {
             int rowsAffected = pst.executeUpdate();
             
             if(rowsAffected > 0){
+                generatedKeys = pst.getGeneratedKeys();
+                if(generatedKeys.next()){
+                    Long generataedId = generatedKeys.getLong(1);
+                    seat.setSeatId(generataedId);
+                }
                 System.out.println("Seat "+seat.getSeatNo()+"successfully added.");
             }
             
