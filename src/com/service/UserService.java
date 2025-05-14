@@ -404,6 +404,43 @@ public class UserService {
         return user; // Returns null if not found
     }
     
-    
+    public static boolean deactivateUser(long userId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        boolean userDeactivated = false;
+        
+        String updateQuery = "UPDATE users_table SET status WHERE user_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(updateQuery);
+            pst.setLong(1, userId);
+
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Details updated successfully.");
+                userDeactivated = true;
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return userDeactivated;
+    }
     
 }

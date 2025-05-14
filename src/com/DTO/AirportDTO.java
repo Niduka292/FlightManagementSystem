@@ -2,7 +2,7 @@ package com.DTO;
 
 public class AirportDTO {
     
-    private long airportID;
+    private Long airportID;
     private String airportCode;
     private String airportName;
     private String city;
@@ -12,11 +12,11 @@ public class AirportDTO {
     public AirportDTO() {
     }
 
-    public long getAirportID() {
+    public Long getAirportID() {
         return airportID;
     }
 
-    public void setAirportID(long airportID) {
+    public void setAirportID(Long airportID) {
         this.airportID = airportID;
     }
 

@@ -51,7 +51,7 @@ public class BookingService {
             pst.setString(2, booking.getClassOfService().toString());
             pst.setString(3, booking.getDepartingAirport().getAirportCode());
             pst.setString(4, booking.getDestination().getAirportCode());
-            pst.setLong(5, flight.getFlightID());
+            pst.setLong(5, FlightService.getFlightIdByDetails(flight));
             pst.setLong(6, booking.getSeat().getSeatId());
             pst.setLong(7, booking.getCustomer().getUserID());
 
@@ -144,6 +144,72 @@ public class BookingService {
         
         return bookings;
     }   
+    
+    public static List<BookingDTO> viewBookingsByCustomer(long customerId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        List<BookingDTO> bookings = new ArrayList<>();
+        
+        String selectQuery = "SELECT * FROM bookings_table WHERE customer_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                                
+                AirportDTO departingAirport = AirportService.getAirportById(rs.getString("departing_airport_id"),conn);
+                AirportDTO destinationAirport = AirportService.getAirportById(rs.getString("destination_airport_id"),conn);
+                
+                String departingContinent = departingAirport.getContinent();
+                String departingCity = departingAirport.getCity();
+
+                Timestamp timestamp = rs.getTimestamp("booking_date");
+                
+                ZonedDateTime zdt = JDBCUtil.convertTimeStampToZoneDate(departingContinent, departingCity, timestamp);
+                
+                
+                BookingDTO booking = new BookingDTO();
+                booking.setBookingID(rs.getLong(1));
+                booking.setBookedDate(zdt);
+                booking.setClassOfService(ServiceClass.valueOf(rs.getString(3)));
+                booking.setDepartingAirport(departingAirport);
+                booking.setDestination(destinationAirport);
+                booking.setFlight(FlightService.getFlightById(rs.getLong(6)));
+                booking.setSeat(SeatService.getSeatById(rs.getLong(7),conn));
+                booking.setCustomer(UserService.getCustomerById(rs.getLong(8),conn));
+                
+                bookings.add(booking);
+            }
+            
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return bookings;
+        
+    }
+    
     
     
 }

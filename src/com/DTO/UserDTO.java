@@ -2,7 +2,7 @@ package com.DTO;
 
 public class UserDTO {
     
-    private long userID;
+    private Long userID;
     private String email;
     private char status; // A - active , I - inactive
     private String username;
@@ -13,11 +13,11 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public long getUserID() {
+    public Long getUserID() {
         return userID;
     }
 
-    public void setUserID(long userID) {
+    public void setUserID(Long userID) {
         this.userID = userID;
     }
 

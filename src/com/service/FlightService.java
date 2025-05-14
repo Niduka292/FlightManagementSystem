@@ -306,7 +306,50 @@ public class FlightService {
         return flight;
     }
     
-    
+    public static Long getFlightIdByDetails(FlightDTO flight){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        Long flightId = null;
+        
+        String selectQuery = "SELECT flight_id FROM flights_table WHERE departure_utc_time = ? AND departing_airport_id = ?"
+                + " AND destination_airport_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            pst.setString(1, JDBCUtil.convertZoneDateTimeToString(flight.getDepartureDate()));
+            pst.setString(2, flight.getDepartingFrom().getAirportCode());
+            pst.setString(3, flight.getDestination().getAirportCode());
+            rs = pst.executeQuery();
+            
+            if(rs.next()){
+                
+                flightId = rs.getLong("flight_id");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return flightId;
+    }
 
     
 }

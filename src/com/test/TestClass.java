@@ -20,8 +20,8 @@ public class TestClass{
             System.out.println("Admin created.");
         }
 
-        CustomerDTO customer1 = new CustomerDTO("Adam Smith", "P12344507", 25, "adam.smith@example.com", 'C', "adamsmith", "adam123");
-        CustomerDTO customer2 = new CustomerDTO("John Doe", "P1234567", 35, "john.doe@example.com", 'C', "johndoe", "john123");
+        CustomerDTO customer1 = new CustomerDTO("Adam Smith", "P12344507", 25, "adam.smith@example.com", 'A', "adamsmith", "adam123");
+        CustomerDTO customer2 = new CustomerDTO("John Doe", "P1234567", 35, "john.doe@example.com", 'A', "johndoe", "john123");
 
         boolean customer1Added = UserService.createCustomer(customer1);
         boolean customer2Added = UserService.createCustomer(customer2);
@@ -63,8 +63,6 @@ public class TestClass{
         customers.add(customer1);
         customers.add(customer2);
         
-        
-        
         ZonedDateTime zdt = JDBCUtil.convertStringToZonedDateTime("2025-05-30T15:00:00+05:30[Asia/Colombo]");
         FlightDTO flight = new FlightDTO(zdt, departingAirport, destinationAirport, aircraft, transitAirports, customers);
 
@@ -92,7 +90,7 @@ public class TestClass{
         }
 
         // 7. Create Operator
-        UserDTO operator = new OperatorDTO("saman", "saman@xyz.com", 'O', "saman_67", "saman123");
+        UserDTO operator = new OperatorDTO("saman", "saman@xyz.com", 'A', "saman_67", "saman123");
         if (UserService.createOperator(operator)) {
             System.out.println("Operator created.");
         } else {

@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 public class BookingDTO {
     
-    private long bookingID;
+    private Long bookingID;
     private ZonedDateTime dateBooked; // Used this instead of Date because the timezone need to be specified 
     private CustomerDTO customer;
     private ServiceClass classOfService;
@@ -17,11 +17,11 @@ public class BookingDTO {
     public BookingDTO() {
     }
 
-    public long getBookingID() {
+    public Long getBookingID() {
         return bookingID;
     }
 
-    public void setBookingID(long bookingID) {
+    public void setBookingID(Long bookingID) {
         this.bookingID = bookingID;
     }
 

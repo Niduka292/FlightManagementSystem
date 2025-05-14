@@ -6,7 +6,7 @@ import com.service.SeatService;
 
 public class Seat {
     
-    private long seatId;
+    private Long seatId;
     private FlightDTO flight;
     private boolean isBooked = false;
     private ServiceClass classOfService;
@@ -15,11 +15,11 @@ public class Seat {
     public Seat() {
     }
 
-    public long getSeatId() {
+    public Long getSeatId() {
         return seatId;
     }
 
-    public void setSeatId(long seatId) {
+    public void setSeatId(Long seatId) {
         this.seatId = seatId;
     }
 
