@@ -64,7 +64,7 @@ public class TestClass{
         customers.add(customer2);
         
         ZonedDateTime zdt = JDBCUtil.convertStringToZonedDateTime("2025-05-30T15:00:00+05:30[Asia/Colombo]");
-        FlightDTO flight = new FlightDTO(zdt, departingAirport, destinationAirport, aircraft, transitAirports, customers);
+        FlightDTO flight = new FlightDTO(zdt, departingAirport, destinationAirport, aircraft, transitAirports);
 
         boolean flightAdded = FlightService.scheduleFlight(flight);
         if (flightAdded) {

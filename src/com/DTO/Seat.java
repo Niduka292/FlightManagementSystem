@@ -64,39 +64,6 @@ public class Seat {
     public void bookSeat(){
         setIsBooked(true);
     }
-    
-    public static List<Seat> createSeatList(FlightDTO flight, AircraftDTO aircraft){
-        
-        List<Seat> seatList = new ArrayList<>();
-
-        if (aircraft != null) { // Null check for safety
-            for (int i = 1; i <= aircraft.getNoOfFirstClassSeats(); i++) {
-                
-                String seatCode = String.format("F-%03d", i); // F-001
-                Seat seat = new Seat(seatCode, flight,ServiceClass.FIRST);
-                seatList.add(seat);
-                SeatService.addSeat(seat);
-           }
-
-            for (int i = 1; i <= aircraft.getNoOfBusinessSeats(); i++) {
-                
-                String seatCode = String.format("B-%03d", i);
-                Seat seat = new Seat(seatCode, flight,ServiceClass.BUSINESS);
-                seatList.add(seat);
-                SeatService.addSeat(seat);
-            }
-
-            for (int i = 1; i <= aircraft.getNoOfEconomySeats(); i++) {
-                
-                String seatCode = String.format("E-%03d", i);
-                Seat seat = new Seat(seatCode, flight,ServiceClass.ECONOMY);
-                seatList.add(seat);
-                SeatService.addSeat(seat);
-            }
-        }
-        
-        return seatList;
-    }
 
     @Override
     public String toString() {

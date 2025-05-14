@@ -36,13 +36,21 @@ public class FlightService {
             }
             Array transitAirportArr = conn.createArrayOf("text", airportCodes.toArray());
             pst.setArray(4, transitAirportArr);
-
             
-            Array customersArr = conn.createArrayOf("text", flight.getCustomers().toArray());
+            List<CustomerDTO> customers = flight.getCustomers();
+            String[] customerIds = new String[customers.size()];
+            
+            for(int i = 0; i < customers.size(); i++){
+                
+                Long id = customers.get(i).getUserID();
+                customerIds[i] = String.valueOf(id);
+            }
+            
+            Array customersArr = conn.createArrayOf("text", customerIds);
             pst.setArray(5, customersArr);
             
-            Array seatsArr = conn.createArrayOf("text", flight.getSeats().toArray());
-            pst.setArray(6, seatsArr);
+            
+            pst.setArray(6, null);
             
             pst.setString(7, flight.getAircraft().getAircraftID());
             
@@ -52,6 +60,32 @@ public class FlightService {
                 System.out.println("Flight scheduled successfully.");
                 flightScheduleSuccess = true;
             }
+            
+            long flightId = getFlightIdByDetails(flight);
+            flight.setFlightID(flightId);
+            
+            List<Seat> seatsList = SeatService.createSeatList(flight, flight.getAircraft());
+            flight.setSeats(seatsList);
+            
+            List<Seat> seats = flight.getSeats();
+            String[] seatIds = new String[seats.size()];
+            
+            for(int i = 0; i < seats.size(); i++){
+                
+                Long id = seats.get(i).getSeatId();
+                seatIds[i] = String.valueOf(id);
+            }
+            
+            Array seatsArr = conn.createArrayOf("text",seatIds);
+            
+            String updateQuery = "UPDATE flights_table SET seats_list = ? WHERE flight_id = ?";
+            
+            PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
+            updateStmt.setArray(1, seatsArr);
+            updateStmt.setLong(2, flight.getFlightID());
+            updateStmt.executeUpdate();
+            updateStmt.close();
+            
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
@@ -109,7 +143,7 @@ public class FlightService {
                 
                 Array customersArray = rs.getArray("customers_list"); // Get the SQL Array
                 String[] stringCustomerIds = (String[]) customersArray.getArray(); // Convert it to a Java array
-
+                
                 List<Long> customerIds = new ArrayList<>();
                 for(String strCustomerId : stringCustomerIds){
                     if(strCustomerId != null && !strCustomerId.isEmpty()){
@@ -297,7 +331,6 @@ public class FlightService {
             try {
                 if (rs != null) rs.close();
                 if (pst != null) pst.close();
-                if (conn != null) conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -349,7 +382,49 @@ public class FlightService {
         }
         
         return flightId;
-    }
+    }    
 
+    public static void addCustomerToFlight(CustomerDTO customer, FlightDTO flight, Connection conn){
+        
+        PreparedStatement pst = null;
+        List<CustomerDTO> existingCustomers = UserService.getCustomersByFlight(flight.getFlightID(), conn);
+        
+        existingCustomers.add(customer);
+        
+        String updateQuery = "UPDATE flights_table SET customers_list = ? WHERE flight_id = ?";
+        
+        String[] customerIds = new String[existingCustomers.size()];
+
+        for (int i = 0; i < existingCustomers.size(); i++) {
+
+            Long id = existingCustomers.get(i).getUserID();
+            customerIds[i] = String.valueOf(id);
+        }
+        
+        try{
+            pst = conn.prepareStatement(updateQuery);
+            
+            Array customersArr = conn.createArrayOf("text", customerIds);
+            pst.setArray(1, customersArr);
+            pst.setLong(2, flight.getFlightID());
+            
+            int rowsUpdated = pst.executeUpdate();
+            
+            if(rowsUpdated > 0){
+                System.out.println("Customer "+customer.getUserID()+" added to the flight "+flight.getFlightID()+" successfully.");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pst != null){
+                    pst.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+    }
     
 }

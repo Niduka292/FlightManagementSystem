@@ -50,17 +50,17 @@ public class AirportService {
         return airportAdded;
     }
     
-    public static AirportDTO getAirportById(String airportId, Connection conn){
+    public static AirportDTO getAirportById(String airportCode, Connection conn){
         
         PreparedStatement pst = null;
         AirportDTO airport = null;
         ResultSet rs = null;
         
-        String selectQuery = "SELECT * FROM airports_table where airport_id = ?";
+        String selectQuery = "SELECT * FROM airports_table where airport_code = ?";
         
         try{
             pst = conn.prepareStatement(selectQuery);
-            pst.setString(1, airportId);
+            pst.setString(1, airportCode);
             rs = pst.executeQuery();
             
             if(rs.next()){
@@ -85,10 +85,6 @@ public class AirportService {
                 
                 if(pst != null){
                     pst.close();
-                }
-                
-                if(conn != null){
-                    conn.close();
                 }
                 
             }catch(SQLException e){

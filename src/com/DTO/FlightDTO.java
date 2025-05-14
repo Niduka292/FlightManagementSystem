@@ -14,7 +14,6 @@ public class FlightDTO {
     private List<AirportDTO> transitAirports = new ArrayList<>();
     private List<CustomerDTO> customers = new ArrayList<>();
     private List<Seat> seats = new ArrayList<>();
-    private static int flightIdIndex = 1;
 
     public FlightDTO() {
     }
@@ -84,7 +83,7 @@ public class FlightDTO {
     }
 
     public FlightDTO(ZonedDateTime departureDate, AirportDTO departingAirport, 
-            AirportDTO destination, AircraftDTO aircraft, List<AirportDTO> transitAirports, List<CustomerDTO> customers) {
+            AirportDTO destination, AircraftDTO aircraft, List<AirportDTO> transitAirports) {
         
         
         setDepartureDate(departureDate);
@@ -92,11 +91,8 @@ public class FlightDTO {
         setDestination(destination);
         setAircraft(aircraft);
         setTransitAirports(transitAirports);
-        setCustomers(customers);
-        flightIdIndex++;
-
-        
-        List<Seat> seatList = Seat.createSeatList(this, aircraft);
+        setCustomers(new ArrayList<>());
+        List<Seat> seatList = new ArrayList<>();
         setSeats(seatList);
 
     }

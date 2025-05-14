@@ -53,7 +53,7 @@ public class BookingService {
             pst.setString(4, booking.getDestination().getAirportCode());
             pst.setLong(5, FlightService.getFlightIdByDetails(flight));
             pst.setLong(6, booking.getSeat().getSeatId());
-            pst.setLong(7, booking.getCustomer().getUserID());
+            pst.setLong(7, UserService.getUserIdByDetails(booking.getCustomer()));
 
             bookingInserted = pst.executeUpdate() > 0;
 
@@ -62,6 +62,9 @@ public class BookingService {
                         " of flight " + flight.getFlightID() + " was booked successfully.");
             }
 
+            FlightService.addCustomerToFlight(booking.getCustomer(), flight, conn);
+            
+            
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
@@ -184,7 +187,6 @@ public class BookingService {
                 
                 bookings.add(booking);
             }
-            
             
         }catch(SQLException e){
             e.printStackTrace();

@@ -7,6 +7,8 @@ import com.DTO.UserDTO;
 import java.sql.*;
 import com.util.JDBCUtil;
 import com.util.UserNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
     
@@ -45,6 +47,10 @@ public class UserService {
                 System.out.println("Customer added to the system successfully.");
                 customerAdded = true;
             }
+            
+            long userId = getUserIdByDetails(user);
+            user.setUserID(userId);
+            
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
@@ -98,6 +104,10 @@ public class UserService {
                 System.out.println("Operator added to the system successfully.");
                 operatorAdded = true;
             }
+            
+            long userId = getUserIdByDetails(user);
+            user.setUserID(userId);
+            
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
@@ -152,6 +162,10 @@ public class UserService {
                 System.out.println("Administrator added to the system successfully.");
                 adminAdded = true;
             }
+            
+            long userId = getUserIdByDetails(user);
+            user.setUserID(userId);
+            
         }catch(SQLException e){
             e.printStackTrace();
         }finally{
@@ -215,9 +229,6 @@ public class UserService {
                     pst.close();
                 }
                 
-                if(conn != null){
-                    conn.close();
-                }
             }catch(SQLException e){
                 e.printStackTrace();
             }
@@ -441,6 +452,101 @@ public class UserService {
         }
         
         return userDeactivated;
+    }
+    
+    public static Long getUserIdByDetails(UserDTO user){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        Long userId = null;
+        ResultSet rs = null;
+        
+        String selectQuery = "SELECT user_id FROM users_table WHERE username = ? AND email = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            pst.setString(1, user.getUsername());
+            pst.setString(2, user.getEmail());
+            rs = pst.executeQuery();
+            if(rs.next()){
+                userId = rs.getLong("user_id");
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return userId;
+    }
+    
+    public static List<CustomerDTO> getCustomersByFlight(Long flightId, Connection conn){
+        
+        PreparedStatement pst = null;
+        List<CustomerDTO> customers = new ArrayList<>();
+        ResultSet rs = null;
+        String[] flightCustomers = new String[0];
+        
+        String selectQuery = "SELECT customers_list FROM flights_table WHERE flight_id = ?";
+        
+        try{
+            
+            pst = conn.prepareStatement(selectQuery);
+            pst.setLong(1, flightId);
+            rs = pst.executeQuery();
+            
+            if(rs.next()){
+                Array sqlArray = rs.getArray("customers_list");
+                
+                if(sqlArray != null){
+                    flightCustomers = (String[]) sqlArray.getArray();
+                    
+                    for(String idStr : flightCustomers){
+                        if(idStr != null && !idStr.trim().isEmpty()){
+                            Long customerId = Long.parseLong(idStr);
+                            CustomerDTO customer = UserService.getCustomerById(customerId,conn);
+                            if(customer != null){
+                                customers.add(customer);
+                            }else{
+                                System.out.println("No customer found with ID: "+customerId);
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+
+                if(pst != null){
+                    pst.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return customers;
     }
     
 }

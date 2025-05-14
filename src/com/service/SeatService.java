@@ -1,17 +1,13 @@
 package com.service;
 
-import com.DTO.AirportDTO;
-import com.DTO.BookingDTO;
-import com.DTO.CustomerDTO;
+import com.DTO.AircraftDTO;
 import com.DTO.FlightDTO;
 import com.DTO.Seat;
 import com.DTO.ServiceClass;
 import java.sql.*;
 import com.util.JDBCUtil;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class SeatService {
     
@@ -28,7 +24,7 @@ public class SeatService {
             
             pst.setBoolean(1, seat.getIsBooked());
             pst.setString(2, seat.getClassOfService().toString());
-            pst.setLong(3, seat.getFlight().getFlightID());
+            pst.setLong(3, FlightService.getFlightIdByDetails(seat.getFlight()));
             pst.setString(4, seat.getSeatNo());
             
             int rowsAffected = pst.executeUpdate();
@@ -232,10 +228,6 @@ public class SeatService {
                     pst.close();
                 }
                 
-                if(conn != null){
-                    conn.close();
-                }
-                
             }catch(SQLException e){
                 e.printStackTrace();
             }
@@ -290,6 +282,39 @@ public class SeatService {
         
         return seats;
         
+    }
+    
+    public static List<Seat> createSeatList(FlightDTO flight, AircraftDTO aircraft){
+        
+        List<Seat> seatList = new ArrayList<>();
+
+        if (aircraft != null) { // Null check for safety
+            for (int i = 1; i <= aircraft.getNoOfFirstClassSeats(); i++) {
+                
+                String seatCode = String.format("F-%03d", i); // F-001
+                Seat seat = new Seat(seatCode, flight,ServiceClass.FIRST);
+                seatList.add(seat);
+                SeatService.addSeat(seat);
+           }
+
+            for (int i = 1; i <= aircraft.getNoOfBusinessSeats(); i++) {
+                
+                String seatCode = String.format("B-%03d", i);
+                Seat seat = new Seat(seatCode, flight,ServiceClass.BUSINESS);
+                seatList.add(seat);
+                SeatService.addSeat(seat);
+            }
+
+            for (int i = 1; i <= aircraft.getNoOfEconomySeats(); i++) {
+                
+                String seatCode = String.format("E-%03d", i);
+                Seat seat = new Seat(seatCode, flight,ServiceClass.ECONOMY);
+                seatList.add(seat);
+                SeatService.addSeat(seat);
+            }
+        }
+        
+        return seatList;
     }
             
 }
