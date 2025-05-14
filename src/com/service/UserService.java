@@ -415,13 +415,13 @@ public class UserService {
         return user; // Returns null if not found
     }
     
-    public static boolean deactivateUser(long userId){
+    public static boolean deactivateUser(Long userId){
         
         Connection conn = null;
         PreparedStatement pst = null;
         boolean userDeactivated = false;
         
-        String updateQuery = "UPDATE users_table SET status WHERE user_id = ?";
+        String updateQuery = "UPDATE users_table SET status = 'I' WHERE user_id = ?";
         
         try{
             conn = JDBCUtil.getConnection();

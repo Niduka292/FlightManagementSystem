@@ -15,6 +15,7 @@ public class TestClass{
 
         Connection conn = JDBCUtil.getConnection();
         
+        /*
         UserDTO admin1 = new AdministratorDTO("kamal123@gmail.com", 'A');
        
         if (UserService.createAdmin(admin1)) {
@@ -92,12 +93,15 @@ public class TestClass{
             System.out.println("Seat not found: " + seatNo);
         }
 
-        // 7. Create Operator
         UserDTO operator = new OperatorDTO("saman", "saman@xyz.com", 'A', "saman_67", "saman123");
         if (UserService.createOperator(operator)) {
             System.out.println("Operator created.");
         } else {
             System.out.println("Operator creation failed.");
         }
+*/
+        
+        UserService.deactivateUser(45L);
+        
     }
 }
