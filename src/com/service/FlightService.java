@@ -10,11 +10,13 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.ZoneOffset;
-
+import java.util.Arrays;
 
 public class FlightService {
 
     public static final int HOURS_OCCUPIED_BY_A_FLIGHT = 22;
+    public static final int HOURS_SET_BEFORE_TARGET = 22;
+    public static final int HOURS_SET_AFTER_TARGET = 15;
     
     public static boolean scheduleFlight(FlightDTO flight){
         
@@ -206,7 +208,7 @@ public class FlightService {
         return flight;
     }
         
-    public static List<FlightDTO> getFlightAvailable(AirportDTO origin, AirportDTO destination,
+    public static List<FlightDTO> getFlightsAvailable(AirportDTO origin, AirportDTO destination,
             ZonedDateTime timeStart, ZonedDateTime timeEnd){
         
         List<FlightDTO> availableFlights = new ArrayList<>();
@@ -511,6 +513,191 @@ public class FlightService {
         
         return isAvailableForFlying;
         
+    }
+    
+    public static List<FlightDTO> getArrivingFlightsForAirport(String airportCode, ZonedDateTime targetZdtTime){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        List<FlightDTO> arrivingFlights = new ArrayList<>();
+        
+        String selectQuery = "SELECT flight_id,departure_utc_time,departing_airport_id,destination_airport_id, transit_airports_id,seats_list,aircraft_id FROM flights_table";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                
+                FlightDTO flight = new FlightDTO();
+                
+                long flightId = rs.getLong("flight_id");
+                flight.setFlightID(flightId);
+                
+                ZonedDateTime departureZdt = JDBCUtil.convertStringToZonedDateTime(rs.getString("departure_utc_time"));
+                flight.setDepartureDate(departureZdt);
+                
+                flight.setDepartingAirport(AirportService.getAirportById(rs.getString("departing_airport_id"),conn));
+                flight.setDestination(AirportService.getAirportById(rs.getString("destination_airport_id"),conn));
+                
+                String destination = rs.getString("destination_airport_id");
+                
+                Array transitAirportArray = rs.getArray("transit_airports_id"); // Get the SQL Array
+                String[] transitAirportIdsArr = (String[]) transitAirportArray.getArray(); // Convert it to a Java array
+                List<String> transitAirportIds = Arrays.asList(transitAirportIdsArr);
+                
+                List<AirportDTO> transitAirports = new ArrayList<>();
+                for(String airportId : transitAirportIds){
+                    transitAirports.add(AirportService.getAirportById(airportId,conn));
+                }
+                flight.setTransitAirports(transitAirports);
+                
+                Array seatsArray = rs.getArray("seats_list"); // Get the SQL Array
+                String[] seatIDs = (String[]) seatsArray.getArray(); // Convert it to a Java array
+                List<Seat> seats = new ArrayList<>();
+                for(String strSeatId : seatIDs){
+                    
+                    if(strSeatId != null && !strSeatId.isEmpty()){
+                        long seatId = Long.parseLong(strSeatId);
+                        Seat seat = SeatService.getSeatById(seatId,conn);
+                        seat.setFlight(flight);
+                        seats.add(seat);
+                    }
+                }
+                flight.setSeats(seats);
+                
+                flight.setAircraft(AircraftService.getAircraftById(rs.getString("aircraft_id")));
+                
+                boolean isArrivingAtAirport = airportCode.trim().equals(destination.trim()) || 
+                               transitAirportIds.contains(airportCode.trim());
+
+                ZonedDateTime normalizedDepartureZdt = departureZdt.withZoneSameInstant(ZoneOffset.UTC);
+                ZonedDateTime normalizedTargetZdt = targetZdtTime.withZoneSameInstant(ZoneOffset.UTC);
+                
+                boolean isWithinTimeWindow = normalizedDepartureZdt.isAfter(normalizedTargetZdt.minusHours(HOURS_SET_BEFORE_TARGET)) &&
+                             normalizedDepartureZdt.isBefore(normalizedTargetZdt.plusHours(HOURS_SET_AFTER_TARGET));
+
+                
+                if(isArrivingAtAirport && isWithinTimeWindow){
+                    arrivingFlights.add(flight);
+                }
+                
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return arrivingFlights;
+    }
+    
+    public static List<FlightDTO> getDepartingFlightsForAirport(String airportCode, ZonedDateTime targetZdtTime){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        List<FlightDTO> departingFlights = new ArrayList<>();
+        
+        String selectQuery = "SELECT flight_id,departure_utc_time,departing_airport_id,destination_airport_id, transit_airports_id,seats_list,aircraft_id FROM flights_table";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                
+                FlightDTO flight = new FlightDTO();
+                
+                long flightId = rs.getLong("flight_id");
+                flight.setFlightID(flightId);
+                
+                ZonedDateTime departureZdt = JDBCUtil.convertStringToZonedDateTime(rs.getString("departure_utc_time"));
+                flight.setDepartureDate(departureZdt);
+                
+                String origin = rs.getString("departing_airport_id");
+                String destination = rs.getString("destination_airport_id");
+                
+                flight.setDepartingAirport(AirportService.getAirportById(origin,conn));
+                flight.setDestination(AirportService.getAirportById(destination,conn));
+                
+                Array transitAirportArray = rs.getArray("transit_airports_id"); // Get the SQL Array
+                String[] transitAirportIdsArr = (String[]) transitAirportArray.getArray(); // Convert it to a Java array
+                List<String> transitAirportIds = Arrays.asList(transitAirportIdsArr);
+                
+                List<AirportDTO> transitAirports = new ArrayList<>();
+                for(String airportId : transitAirportIds){
+                    transitAirports.add(AirportService.getAirportById(airportId,conn));
+                }
+                flight.setTransitAirports(transitAirports);
+                
+                Array seatsArray = rs.getArray("seats_list"); // Get the SQL Array
+                String[] seatIDs = (String[]) seatsArray.getArray(); // Convert it to a Java array
+                List<Seat> seats = new ArrayList<>();
+                for(String strSeatId : seatIDs){
+                    
+                    if(strSeatId != null && !strSeatId.isEmpty()){
+                        long seatId = Long.parseLong(strSeatId);
+                        Seat seat = SeatService.getSeatById(seatId,conn);
+                        seat.setFlight(flight);
+                        seats.add(seat);
+                    }
+                }
+                flight.setSeats(seats);
+                
+                flight.setAircraft(AircraftService.getAircraftById(rs.getString("aircraft_id")));
+                
+                boolean isDepartingFromAirport = airportCode.trim().equals(origin.trim());
+
+                ZonedDateTime normalizedDepartureZdt = departureZdt.withZoneSameInstant(ZoneOffset.UTC);
+                ZonedDateTime normalizedTargetZdt = targetZdtTime.withZoneSameInstant(ZoneOffset.UTC);
+                
+                boolean isWithinTimeWindow = normalizedDepartureZdt.isBefore(normalizedTargetZdt.plusHours(HOURS_SET_AFTER_TARGET)) 
+                        && normalizedDepartureZdt.isAfter(normalizedTargetZdt);
+                
+                if(isDepartingFromAirport && isWithinTimeWindow){
+                    departingFlights.add(flight);
+                }
+                
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return departingFlights;
     }
     
 }
