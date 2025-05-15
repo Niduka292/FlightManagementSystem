@@ -57,4 +57,17 @@ public class AdminLoggedInController implements Initializable {
         }
     }
     
+    @FXML
+    public void loadViewBookings(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("view-user-bookings.fxml"));
+            AnchorPane pane = loader.load();
+            adminLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
 }

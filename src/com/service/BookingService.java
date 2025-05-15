@@ -20,7 +20,7 @@ public class BookingService {
             return false;
         }
 
-        FlightDTO flight = booking.getFlight();
+        FlightDTO flight = booking.getFlight();        
         ZonedDateTime departureTime = flight.getDepartureDate();
         ZonedDateTime now = ZonedDateTime.now();
 
@@ -168,6 +168,7 @@ public class BookingService {
         try{
             conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
+            pst.setLong(1, customerId);
             rs = pst.executeQuery();
             
             while(rs.next()){
@@ -186,7 +187,7 @@ public class BookingService {
                 BookingDTO booking = new BookingDTO();
                 booking.setBookingID(rs.getLong(1));
                 booking.setBookedDate(zdt);
-                booking.setClassOfService(ServiceClass.valueOf(rs.getString(3)));
+                booking.setClassOfService(ServiceClass.valueOf(rs.getString(3).trim().toUpperCase()));
                 booking.setDepartingAirport(departingAirport);
                 booking.setDestination(destinationAirport);
                 booking.setFlight(FlightService.getFlightById(rs.getLong(6)));

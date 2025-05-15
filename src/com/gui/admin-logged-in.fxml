@@ -9,16 +9,13 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="adminLoginPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.AdminLoggedInController">
-    <stylesheets>
-        <URL value="@admin_logged-in.css" />
-    </stylesheets>
    <children>
       <Label layoutX="361.0" layoutY="71.0" prefHeight="42.0" prefWidth="122.0" text="Welcome!">
          <font>
             <Font name="Arial" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="button_viewBokkings" layoutX="355.0" layoutY="158.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="View Bookings">
+      <Button fx:id="button_viewBokkings" layoutX="355.0" layoutY="158.0" mnemonicParsing="false" onAction="#loadViewBookings" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="View Bookings">
          <font>
             <Font size="13.0" />
          </font></Button>

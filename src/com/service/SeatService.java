@@ -150,7 +150,7 @@ public class SeatService {
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs =  null;
-        Seat seat = new Seat();
+        Seat seat = null;
         
         String selectQuery = "SELECT * FROM seats_table where seat_no = ? AND flight_id = ?";
         
@@ -162,6 +162,7 @@ public class SeatService {
             rs = pst.executeQuery();
             
             if(rs.next()){
+                seat = new Seat();
                 seat.setSeatId(rs.getLong("seat_id"));
                 seat.setIsBooked(rs.getBoolean("is_booked"));
                 seat.setClassOfService(ServiceClass.valueOf(rs.getString("class_of_service").trim().toUpperCase()));
@@ -169,7 +170,7 @@ public class SeatService {
                 seat.setSeatNo(rs.getString("seat_no"));
                 
             }else{
-                System.out.println("Seat "+seatNo+" was mot found.");
+                System.out.println("Seat "+seatNo+" was not found.");
             }
             
             
@@ -322,5 +323,49 @@ public class SeatService {
         
         return seatList;
     }
+    
+    public static String getSeatNoById(long seatId){
+        
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs =  null;
+        String seatNo = null;
+        
+        String selectQuery = "SELECT seat_no FROM seats_table where seat_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            pst.setLong(1, seatId);
+            rs = pst.executeQuery();
+            
+            if(rs.next()){
+                seatNo = rs.getString("seat_no");
+                
+            }else{
+                System.out.println("Seat "+seatId+" was mot found.");
+            }
+            
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return seatNo;
+    }
+    
             
 }

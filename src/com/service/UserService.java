@@ -189,8 +189,7 @@ public class UserService {
     
     public static CustomerDTO getCustomerById(long userId, Connection conn){
         
-        UserDTO user = new UserDTO();
-        CustomerDTO customer = (CustomerDTO) user;
+        CustomerDTO customer = new CustomerDTO();
         
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -211,7 +210,7 @@ public class UserService {
                 customer.setName(rs.getString(5));
                 customer.setPassportNo(rs.getString(6));
                 customer.setStatus(rs.getString(7).charAt(0));
-                customer.setAge(Integer.parseInt(rs.getString(8)));
+                customer.setAge(Integer.parseInt(rs.getString(8).trim()));
                 customer.setType(rs.getString(9));
             }
             
@@ -240,7 +239,6 @@ public class UserService {
     public static CustomerDTO getCustomerByUsername(String username){
         
         CustomerDTO customer = null;
-        //UserDTO user = new UserDTO();
         
         Connection conn = null;
         PreparedStatement pst = null;
@@ -255,6 +253,62 @@ public class UserService {
             rs = pst.executeQuery();
             
             
+            
+            if(rs.next()){
+                
+                customer = new CustomerDTO();
+                
+                customer.setUserID(rs.getLong(1));
+                customer.setEmail(rs.getString(2));
+                customer.setUsername(rs.getString(3));
+                customer.setPassword(rs.getString(4));
+                customer.setName(rs.getString(5));
+                customer.setPassportNo(rs.getString(6));
+                customer.setStatus(rs.getString(7).charAt(0));
+                customer.setAge(Integer.parseInt(rs.getString(8).trim()));
+                customer.setType(rs.getString(9));
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return customer;
+    }
+    
+    public static CustomerDTO getCustomerByEmail(String email){
+        
+        CustomerDTO customer = null;
+        email = email.trim();
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        
+        String selectQuery = "SELECT * FROM users_table WHERE email = ?";
+        
+        try{ 
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            pst.setString(1, email);
+            rs = pst.executeQuery();
             
             if(rs.next()){
                 
@@ -588,7 +642,7 @@ public class UserService {
         return customers;
     }
     
-    public static void updateCustomerEmail(Long customerId, String newEmail){
+    public static void updateEmail(Long customerId, String newEmail){
         
         Connection conn = null;
         PreparedStatement pst = null;
@@ -622,7 +676,7 @@ public class UserService {
         }
     }
     
-    public static void updateCustomerUsername(String newUsername, Long customerId){
+    public static void updateUsername(String newUsername, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;

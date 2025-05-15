@@ -155,8 +155,10 @@ public class FlightService {
                 
                 List<Long> customerIds = new ArrayList<>();
                 for(String strCustomerId : stringCustomerIds){
-                    if(strCustomerId != null && !strCustomerId.isEmpty()){
-                        customerIds.add(Long.parseLong(strCustomerId));
+                    if(strCustomerId != null && !strCustomerId.isEmpty() && !strCustomerId.equalsIgnoreCase("null")){
+                        customerIds.add(Long.parseLong(strCustomerId.trim()));
+                    }else{
+                        System.out.println("Invalid customer Id");
                     }
                 }
                 
@@ -559,6 +561,11 @@ public class FlightService {
     public static ZonedDateTime getLatestDepartureForAircraft(String aircraftId){
         
         List<ZonedDateTime> zdtDepartures = getDepartureTimesForAircraft(aircraftId);
+        
+        if(zdtDepartures.isEmpty()){
+            return null;
+        }
+        
         ZonedDateTime latestDeparture = zdtDepartures.get(0);
         
         if(zdtDepartures.size() > 1){
