@@ -208,10 +208,10 @@ public class FlightService {
         return flight;
     }
         
-    public static List<FlightDTO> getFlightsAvailable(AirportDTO origin, AirportDTO destination,
+    public static List<FlightDTO> getDirectFlightsAvailable(String originAirportCode, String destinationAirportCode,
             ZonedDateTime timeStart, ZonedDateTime timeEnd){
         
-        List<FlightDTO> availableFlights = new ArrayList<>();
+        List<FlightDTO> directFlights = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -221,6 +221,10 @@ public class FlightService {
         try{
             conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
+            
+            AirportDTO origin = AirportService.getAirportById(originAirportCode, conn);
+            AirportDTO destination = AirportService.getAirportById(destinationAirportCode, conn);
+            
             pst.setString(1, origin.getAirportCode());
             rs = pst.executeQuery();
             
@@ -233,8 +237,10 @@ public class FlightService {
                 ZonedDateTime departureZdt = JDBCUtil.convertStringToZonedDateTime(rs.getString("departure_utc_time"));
                 flight.setDepartureDate(departureZdt);
                 
+                AirportDTO flightDestination = AirportService.getAirportById(rs.getString("destination_airport_id"),conn);
+                
                 flight.setDepartingAirport(AirportService.getAirportById(rs.getString("departing_airport_id"),conn));
-                flight.setDestination(AirportService.getAirportById(rs.getString("destination_airport_id"),conn));
+                flight.setDestination(flightDestination);
                 
                 Array transitAirportArray = rs.getArray("transit_airports_id"); // Get the SQL Array
                 String[] transitAirportIds = (String[]) transitAirportArray.getArray(); // Convert it to a Java array
@@ -244,22 +250,6 @@ public class FlightService {
                     transitAirports.add(AirportService.getAirportById(airportId,conn));
                 }
                 flight.setTransitAirports(transitAirports);
-                
-                Array customersArray = rs.getArray("customers_list"); // Get the SQL Array
-                String[] stringCustomerIds = (String[]) customersArray.getArray(); // Convert it to a Java array
-
-                List<Long> customerIds = new ArrayList<>();
-                for(String strCustomerId : stringCustomerIds){
-                    if(strCustomerId != null && !strCustomerId.isEmpty()){
-                        customerIds.add(Long.parseLong(strCustomerId));
-                    }
-                }
-                
-                List<CustomerDTO> customers = new ArrayList<>();
-                for(long customerid : customerIds){
-                    customers.add(UserService.getCustomerById(customerid,conn));
-                }
-                flight.setCustomers(customers);
                 
                 Array seatsArray = rs.getArray("seats_list"); // Get the SQL Array
                 String[] seatIDs = (String[]) seatsArray.getArray(); // Convert it to a Java array
@@ -277,9 +267,9 @@ public class FlightService {
                 
                 flight.setAircraft(AircraftService.getAircraftById(rs.getString("aircraft_id")));
                 
-                if(transitAirports.contains(destination)){
+                if(destination.equals(flightDestination)){
                     if(departureZdt.isAfter(timeStart) && departureZdt.isBefore(timeEnd)){
-                        availableFlights.add(flight);
+                        directFlights.add(flight);
                     }
                 }
                 
@@ -304,9 +294,95 @@ public class FlightService {
             }
         }
         
-        return availableFlights;
+        return directFlights;
+    }
+    
+    
+    public static List<FlightDTO> getTransitFlightsAvailable(String originAirportCode, String destinationAirportCode,
+            ZonedDateTime timeStart, ZonedDateTime timeEnd){
         
+        List<FlightDTO> transitFlights = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
         
+        String selectQuery = "SELECT * FROM flights_table where departing_airport_id = ?";
+        
+        try{
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            
+            AirportDTO origin = AirportService.getAirportById(originAirportCode, conn);
+            AirportDTO destination = AirportService.getAirportById(destinationAirportCode, conn);
+            
+            pst.setString(1, origin.getAirportCode());
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                FlightDTO flight = new FlightDTO();
+                
+                long flightId = rs.getLong("flight_id");
+                flight.setFlightID(flightId);
+                
+                ZonedDateTime departureZdt = JDBCUtil.convertStringToZonedDateTime(rs.getString("departure_utc_time"));
+                flight.setDepartureDate(departureZdt);
+                
+                flight.setDepartingAirport(AirportService.getAirportById(rs.getString("departing_airport_id"),conn));
+                flight.setDestination(AirportService.getAirportById(rs.getString("destination_airport_id"),conn));
+                
+                Array transitAirportArray = rs.getArray("transit_airports_id"); // Get the SQL Array
+                String[] transitAirportIds = (String[]) transitAirportArray.getArray(); // Convert it to a Java array
+                
+                List<AirportDTO> transitAirports = new ArrayList<>();
+                for(String airportId : transitAirportIds){
+                    transitAirports.add(AirportService.getAirportById(airportId,conn));
+                }
+                flight.setTransitAirports(transitAirports);
+                
+                Array seatsArray = rs.getArray("seats_list"); // Get the SQL Array
+                String[] seatIDs = (String[]) seatsArray.getArray(); // Convert it to a Java array
+                List<Seat> seats = new ArrayList<>();
+                for(String strSeatId : seatIDs){
+                    
+                    if(strSeatId != null && !strSeatId.isEmpty()){
+                        long seatId = Long.parseLong(strSeatId);
+                        Seat seat = SeatService.getSeatById(seatId,conn);
+                        seat.setFlight(flight);
+                        seats.add(seat);
+                    }
+                }
+                flight.setSeats(seats);
+                
+                flight.setAircraft(AircraftService.getAircraftById(rs.getString("aircraft_id")));
+                
+                if(transitAirports.contains(destination)){
+                    if(departureZdt.isAfter(timeStart) && departureZdt.isBefore(timeEnd)){
+                        transitFlights.add(flight);
+                    }
+                }
+                
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return transitFlights;
     }
         
     public static FlightDTO getFlightBasicById(long flightId, Connection conn) {
