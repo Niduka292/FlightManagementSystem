@@ -2,10 +2,11 @@ package com.DTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.service.SeatService;
 
 public class Seat {
     
-    private long seatId;
+    private Long seatId;
     private FlightDTO flight;
     private boolean isBooked = false;
     private ServiceClass classOfService;
@@ -14,11 +15,11 @@ public class Seat {
     public Seat() {
     }
 
-    public long getSeatId() {
+    public Long getSeatId() {
         return seatId;
     }
 
-    public void setSeatId(long seatId) {
+    public void setSeatId(Long seatId) {
         this.seatId = seatId;
     }
 
@@ -62,36 +63,6 @@ public class Seat {
     
     public void bookSeat(){
         setIsBooked(true);
-    }
-    
-    public static List<Seat> createSeatList(FlightDTO flight, AircraftDTO aircraft){
-        
-        List<Seat> seatList = new ArrayList<>();
-
-        if (aircraft != null) { // Null check for safety
-            for (int i = 1; i <= aircraft.getNoOfFirstClassSeats(); i++) {
-                
-                String seatCode = String.format("F-%04d", i); // F-001
-                Seat seat = new Seat(seatCode, flight,ServiceClass.FIRST);
-                seatList.add(seat);
-            }
-
-            for (int i = 1; i <= aircraft.getNoOfBusinessSeats(); i++) {
-                
-                String seatCode = String.format("B-%04d", i);
-                Seat seat = new Seat(seatCode, flight,ServiceClass.BUSINESS);
-                seatList.add(seat);
-            }
-
-            for (int i = 1; i <= aircraft.getNoOfEconomySeats(); i++) {
-                
-                String seatCode = String.format("E-%04d", i);
-                Seat seat = new Seat(seatCode, flight,ServiceClass.ECONOMY);
-                seatList.add(seat);
-            }
-        }
-        
-        return seatList;
     }
 
     @Override

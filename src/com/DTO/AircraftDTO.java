@@ -1,7 +1,7 @@
 package com.DTO;
 
 public class AircraftDTO {
-
+    
     private String aircraftID;
     private String model;
     private String category;
@@ -9,6 +9,10 @@ public class AircraftDTO {
     private int noOfBusinessSeats;
     private int noOfEconomySeats;
 
+    public static final int MIN_SEATS = 20;
+    public static final int MIN_SEATS_ABOVE_SMALL = 100;
+    public static final int MAX_SEATS_BELOW_LARGE = 250;
+    
     public AircraftDTO() {
     }
 
@@ -79,10 +83,10 @@ public class AircraftDTO {
 
         int totalSeats = noOfBusinessSeats + noOfEconomySeats + noOfFirstClassSeats;
 
-        if (totalSeats >= 20) {
-            if (totalSeats >= 20 && totalSeats <= 100) {
+        if (totalSeats >= MIN_SEATS) {
+            if (totalSeats >= MIN_SEATS && totalSeats <= MIN_SEATS_ABOVE_SMALL) {
                 return "small";
-            } else if (totalSeats > 100 && totalSeats <= 250) {
+            } else if (totalSeats > MIN_SEATS_ABOVE_SMALL && totalSeats <= MAX_SEATS_BELOW_LARGE) {
                 return "medium";
             } else {
                 return "large";
