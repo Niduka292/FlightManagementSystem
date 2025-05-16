@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -12,33 +14,47 @@
       <URL value="@admin_logged-in.css" />
    </stylesheets>
    <children>
-      <Button fx:id="button_logout" layoutX="569.0" layoutY="492.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
-      <Label layoutX="68.0" layoutY="85.0" prefHeight="54.0" prefWidth="315.0" text="Update Customer Age">
+      <Button fx:id="button_logout" layoutX="572.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
+      <Label layoutX="335.0" layoutY="67.0" prefHeight="54.0" prefWidth="315.0" text="Update Customer Age">
          <font>
             <Font name="Arial" size="27.0" />
          </font>
       </Label>
-      <Button fx:id="button_back" layoutX="34.0" layoutY="35.0" mnemonicParsing="false" onAction="#handleBackButtonClick" prefHeight="27.0" prefWidth="33.0" style="-fx-background-color: #c8d9de;" text="⬅" textFill="#01035b">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <TextField fx:id="tf_userId" layoutX="68.0" layoutY="181.0" prefHeight="26.0" prefWidth="410.0" />
-      <Label layoutX="68.0" layoutY="152.0" prefHeight="26.0" prefWidth="83.0" text="User ID : ">
+      <TextField fx:id="tf_userId" layoutX="335.0" layoutY="171.0" prefHeight="26.0" prefWidth="280.0" />
+      <Label layoutX="347.0" layoutY="146.0" prefHeight="26.0" prefWidth="83.0" text="User ID : ">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="button_enter" layoutX="68.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleEnterButtonClick" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #01bb01;" text="Enter" textFill="WHITE" />
+      <Button fx:id="button_enter" layoutX="343.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleEnterButtonClick" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #01bb01;" text="Enter" textFill="WHITE" />
       <Label fx:id="lb_errorMsg" layoutX="68.0" layoutY="228.0" prefHeight="18.0" prefWidth="239.0" textFill="RED" />
       <Label fx:id="lb_successMsg" layoutX="68.0" layoutY="209.0" prefHeight="18.0" prefWidth="239.0" textFill="#00bc03" />
-      <Label layoutX="68.0" layoutY="232.0" text="Age :">
+      <Label layoutX="347.0" layoutY="224.0" text="Age :">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="tf_age" layoutX="68.0" layoutY="260.0" prefHeight="26.0" prefWidth="410.0" />
-      <Label fx:id="lb_errorMsg1" layoutX="68.0" layoutY="286.0" prefHeight="18.0" prefWidth="230.0" textFill="RED" />
-      <Label fx:id="lb_successMsg1" layoutX="68.0" layoutY="304.0" prefHeight="18.0" prefWidth="230.0" textFill="#05ae21" />
+      <TextField fx:id="tf_age" layoutX="335.0" layoutY="250.0" prefHeight="26.0" prefWidth="280.0" />
+      <Label fx:id="lb_errorMsg1" layoutX="335.0" layoutY="276.0" prefHeight="18.0" prefWidth="230.0" textFill="RED" />
+      <Label fx:id="lb_successMsg1" layoutX="335.0" layoutY="294.0" prefHeight="18.0" prefWidth="230.0" textFill="#05ae21" />
+      <AnchorPane prefHeight="546.0" prefWidth="323.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fitHeight="161.0" fitWidth="176.0" layoutX="87.0" layoutY="161.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/graphic-cartoon-character-system-update-vector-34678927.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="button_back" layoutX="35.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleBackButtonClick" prefHeight="27.0" prefWidth="33.0" style="-fx-background-color: #c8d9de;" text="⬅" textFill="#01035b">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Label layoutX="33.0" layoutY="336.0" prefHeight="42.0" prefWidth="268.0" text=" Flight Management System" textAlignment="CENTER" textFill="#142161">
+         <font>
+            <Font name="Calibri" size="23.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

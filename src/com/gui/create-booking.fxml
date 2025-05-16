@@ -58,5 +58,10 @@
             <Font size="10.0" />
          </font>
       </Label>
+      <Label layoutX="33.0" layoutY="336.0" prefHeight="42.0" prefWidth="268.0" text=" Flight Management System" textAlignment="CENTER" textFill="#142161">
+         <font>
+            <Font name="Calibri" size="23.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

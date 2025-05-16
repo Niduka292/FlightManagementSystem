@@ -43,6 +43,11 @@
                   <Image url="@../../assets/admin-img.png" />
                </image>
             </ImageView>
+            <Label layoutX="33.0" layoutY="336.0" prefHeight="42.0" prefWidth="268.0" text=" Flight Management System" textAlignment="CENTER" textFill="#142161">
+               <font>
+                  <Font name="Calibri" size="23.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Button fx:id="button_logout" layoutX="559.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
