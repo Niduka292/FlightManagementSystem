@@ -96,4 +96,17 @@ public class AdminLoggedInController implements Initializable {
         
     }
     
+    @FXML
+    public void loadUpdateUser(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("update-user.fxml"));
+            AnchorPane pane = loader.load();
+            adminLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
 }

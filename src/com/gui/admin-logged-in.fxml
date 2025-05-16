@@ -22,7 +22,7 @@
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="buttton_updateUser" layoutX="355.0" layoutY="226.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Update User" />
+      <Button fx:id="buttton_updateUser" layoutX="355.0" layoutY="226.0" mnemonicParsing="false" onAction="#loadUpdateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Update User" />
       <Button fx:id="button_deactivateUser" layoutX="507.0" layoutY="226.0" mnemonicParsing="false" onAction="#loadDeactivateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Deactivate User">
          <font>
             <Font size="13.0" />

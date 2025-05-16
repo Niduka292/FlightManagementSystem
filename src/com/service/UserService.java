@@ -782,10 +782,11 @@ public class UserService {
         return customers;
     }
     
-    public static void updateEmail(Long customerId, String newEmail){
+    public static boolean updateEmail(Long userId, String newEmail){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET email = ? WHERE user_id = ?";
         
@@ -793,11 +794,12 @@ public class UserService {
             conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(updateQuery);
             pst.setString(1, newEmail);
-            pst.setLong(2, customerId);
+            pst.setLong(2, userId);
             int rowsUpdated = pst.executeUpdate();
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -814,12 +816,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateUsername(String newUsername, Long customerId){
+    public static boolean updateUsername(String newUsername, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET username = ? WHERE user_id = ?";
         
@@ -832,6 +836,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -848,12 +853,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateCustomerAge(int newAge, Long customerId){
+    public static boolean updateCustomerAge(int newAge, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET age = ? WHERE user_id = ?";
         
@@ -866,6 +873,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -882,12 +890,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateCustomerName(String newName, Long customerId){
+    public static boolean updateCustomerName(String newName, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET name = ? WHERE user_id = ?";
         
@@ -900,6 +910,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -916,12 +927,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateCustomerPassportNo(String newPassportNo, Long customerId){
+    public static boolean updateCustomerPassportNo(String newPassportNo, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET passport_no = ? WHERE user_id = ?";
         
@@ -934,6 +947,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -950,6 +964,7 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
 }
