@@ -121,5 +121,19 @@ public class AdminLoggedInController implements Initializable {
         }
         
     }
+     
+    @FXML
+     public void loadCreateBooking(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("create-booking.fxml"));
+            AnchorPane pane = loader.load();
+            adminLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
     
 }

@@ -32,7 +32,7 @@
             <Font size="13.0" />
          </font></Button>
       <Button fx:id="button_searchFlights" layoutX="355.0" layoutY="355.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Search For Flights" />
-      <Button fx:id="button_createBooking" layoutX="507.0" layoutY="289.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Create a Booking">
+      <Button fx:id="button_createBooking" layoutX="507.0" layoutY="289.0" mnemonicParsing="false" onAction="#loadCreateBooking" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Create a Booking">
          <font>
             <Font size="13.0" />
          </font></Button>

@@ -42,18 +42,11 @@ public class JDBCUtil {
         return conn;
     } 
     
-    public static ZonedDateTime convertTimeStampToZoneDate(String continent, String city, Timestamp timestamp) {
-
-        if(timestamp == null || continent == null || city == null){
-            throw new IllegalArgumentException("Continent, city, and timestamp must not be null.");
-        }
-
-        Instant instant = timestamp.toInstant();
+    public static String getZoneId(String continent, String city){
+        
         String zoneId = null;
-
-        // Convert continent and city to lowercase for case-insensitive comparison
-        String cont = continent.toLowerCase();
-        String ct = city.toLowerCase();
+        String cont = continent.toLowerCase().trim();
+        String ct = city.toLowerCase().trim();
 
         if (cont.equals("asia")) {
             if(ct.equals("tokyo")){
@@ -120,6 +113,19 @@ public class JDBCUtil {
         if(zoneId == null){
             zoneId = "UTC";
         }
+        
+        return zoneId;
+        
+    }
+    
+    public static ZonedDateTime convertTimeStampToZoneDate(String continent, String city, Timestamp timestamp) {
+
+        if(timestamp == null || continent == null || city == null){
+            throw new IllegalArgumentException("Continent, city, and timestamp must not be null.");
+        }
+
+        Instant instant = timestamp.toInstant();
+        String zoneId = getZoneId(continent, city);
 
         return instant.atZone(ZoneId.of(zoneId));
         

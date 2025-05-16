@@ -77,10 +77,10 @@ public class SeatService {
             if(rs.next()){
                 isBooked = rs.getBoolean("is_booked");
                 if(isBooked){
-                    System.out.println("Seat "+seatNo+"is booked");
+                    System.out.println("Seat "+seatNo+" is booked");
                 }
             }else{
-                System.out.println("Seat "+seatNo+" was mot founf");
+                System.out.println("Seat "+seatNo+" was mot found");
             }
             
             
@@ -109,6 +109,7 @@ public class SeatService {
     }
     
     public static boolean bookSeat(String seatNo, long flightId) {
+        
         if (seatNo == null || seatNo.isEmpty()) {
             System.out.println("Seat number is invalid.");
             return false;
@@ -125,6 +126,7 @@ public class SeatService {
             return false;
         }
 
+        
         return updateSeatStatus(seatNo, flightId, true);
     }
 
@@ -132,20 +134,27 @@ public class SeatService {
     private static boolean updateSeatStatus(String seatNo, long flightId, boolean isBooked) {
         String updateQuery = "UPDATE seats_table SET is_booked = ? WHERE seat_no = ? AND flight_id = ?";
 
+        boolean updateSuccess = false;
+        
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement pst = conn.prepareStatement(updateQuery);
             pst.setBoolean(1, isBooked);
             pst.setString(2, seatNo);
             pst.setLong(3, flightId);
-            return pst.executeUpdate() > 0;
+            updateSuccess = true;
+            int rowsUpdated = pst.executeUpdate();
+            if(rowsUpdated > 0){
+                System.out.println(seatNo+" of flight "+flightId+"was updated as booked"); 
+           }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            
         }
+        return updateSuccess;
     }
     
-    public static Seat getSeatBySeatNo(String seatNo, long flightId){
+    public static Seat getSeatBySeatNo(String seatNo, Long flightId){
         
         Connection conn = null;
         PreparedStatement pst = null;
@@ -367,5 +376,4 @@ public class SeatService {
         return seatNo;
     }
     
-            
 }

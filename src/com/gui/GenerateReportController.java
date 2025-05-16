@@ -1,14 +1,18 @@
 package com.gui;
 
+import com.DTO.AirportDTO;
 import com.DTO.FlightDTO;
+import com.service.AirportService;
 import com.service.FlightService;
 import com.service.UserService;
+import com.util.JDBCUtil;
 import com.util.ScenesUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.sql.Connection;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -103,9 +107,13 @@ public class GenerateReportController implements Initializable {
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime selectedTime = LocalTime.parse(timeString, timeFormatter);
-
-        ZonedDateTime zonedDateTime = ZonedDateTime.of(selectedDate, selectedTime, ZoneId.systemDefault());
-
+        String airportCode = tf_airportCode.getText().trim();
+        
+        Connection conn = JDBCUtil.getConnection();
+        AirportDTO airport = AirportService.getAirportById(airportCode, conn);
+        String zoneIdString = JDBCUtil.getZoneId(airport.getContinent(), airport.getCity());
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(selectedDate, selectedTime,ZoneId.of(zoneIdString));
+        System.out.println(zonedDateTime);
         return zonedDateTime;
     }
     

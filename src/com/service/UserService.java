@@ -747,7 +747,7 @@ public class UserService {
                     
                     for(String idStr : flightCustomers){
                         if(idStr != null && !idStr.trim().isEmpty()){
-                            Long customerId = Long.parseLong(idStr);
+                            Long customerId = Long.valueOf(idStr.trim());
                             UserDTO user = UserService.getUserById(customerId,conn);
                             CustomerDTO customer = null;
                             if(user.getType().equals("customer")){
@@ -765,6 +765,8 @@ public class UserService {
             }
             
         }catch(SQLException e){
+            e.printStackTrace();
+        }catch(NumberFormatException e){
             e.printStackTrace();
         }finally{
             try{
