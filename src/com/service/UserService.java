@@ -222,7 +222,7 @@ public class UserService {
                         customer.setPassportNo(rs.getString("passport_no"));
                         customer.setStatus(status);
                         customer.setAge(Integer.parseInt(rs.getString("age").trim()));
-                        customer.setType(rs.getString(role));
+                        customer.setType(role);
                         user = customer;
                         
                         break;
@@ -320,7 +320,7 @@ public class UserService {
                         customer.setPassportNo(rs.getString("passport_no"));
                         customer.setStatus(status);
                         customer.setAge(Integer.parseInt(rs.getString("age").trim()));
-                        customer.setType(rs.getString(role));
+                        customer.setType(role);
                         user = customer;
                         
                         break;

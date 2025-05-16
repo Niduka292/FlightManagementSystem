@@ -9,8 +9,8 @@
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/customer-logged-in.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/CustomerLoggedInController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/AddCustomerController.java</file>
-            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/service/UserService.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/service/FlightService.java</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/service/UserService.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/OperatorLoggedInController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/service/BookingService.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/add-operator.fxml</file>
@@ -29,6 +29,7 @@
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/Booking.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/view-user-bookings.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/HelloController.java</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/DeactivateUserController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/ViewUserBookingsController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/AddOperatorController.java</file>
         </group>

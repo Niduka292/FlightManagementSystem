@@ -46,7 +46,7 @@
          </children>
       </AnchorPane>
       <Button fx:id="button_logout" layoutX="559.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
-      <Button fx:id="button_activateUser" layoutX="507.0" layoutY="355.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Activate User">
+      <Button fx:id="button_activateUser" layoutX="507.0" layoutY="355.0" mnemonicParsing="false" onAction="#loadActivateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Activate User">
          <font>
             <Font size="13.0" />
          </font>
