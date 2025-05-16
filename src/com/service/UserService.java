@@ -187,10 +187,9 @@ public class UserService {
     
     
     
-    public static CustomerDTO getCustomerById(long userId, Connection conn){
+    public static UserDTO getUserById(long enteredUserId, Connection conn){
         
-        CustomerDTO customer = new CustomerDTO();
-        
+        UserDTO user = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
         
@@ -199,19 +198,66 @@ public class UserService {
         try{
             
             pst = conn.prepareStatement(selectQuery);
-            pst.setLong(1, userId);
+            pst.setLong(1, enteredUserId);
             rs = pst.executeQuery();
             
-            while(rs.next()){
-                customer.setUserID(rs.getLong(1));
-                customer.setEmail(rs.getString(2));
-                customer.setUsername(rs.getString(3));
-                customer.setPassword(rs.getString(4));
-                customer.setName(rs.getString(5));
-                customer.setPassportNo(rs.getString(6));
-                customer.setStatus(rs.getString(7).charAt(0));
-                customer.setAge(Integer.parseInt(rs.getString(8).trim()));
-                customer.setType(rs.getString(9));
+            if(rs.next()){
+                String role = rs.getString("user_type").trim();
+                
+                Long userId = rs.getLong("user_id");
+                String email = rs.getString("email").trim();
+                String username = rs.getString("username").trim();
+                String password = rs.getString("password").trim();
+                char status = rs.getString("status").charAt(0);
+                
+                switch(role){
+                    case "customer":
+                        CustomerDTO customer = new CustomerDTO();
+                        
+                        customer.setUserID(userId);
+                        customer.setEmail(email);
+                        customer.setUsername(username);
+                        customer.setPassword(password);
+                        customer.setName(rs.getString("name"));
+                        customer.setPassportNo(rs.getString("passport_no"));
+                        customer.setStatus(status);
+                        customer.setAge(Integer.parseInt(rs.getString("age").trim()));
+                        customer.setType(rs.getString(role));
+                        user = customer;
+                        
+                        break;
+                        
+                    case "operator":
+                        OperatorDTO operator = new OperatorDTO();
+                        
+                        operator.setUserID(userId);
+                        operator.setName(rs.getString("name"));
+                        operator.setEmail(email);
+                        operator.setStatus(status);
+                        operator.setUsername(username);
+                        operator.setPassword(password);
+                        operator.setType(role);
+                        user = operator;
+                        
+                        break;
+                        
+                    case "admin":
+                        AdministratorDTO admin = new AdministratorDTO();
+                        
+                        admin.setUserID(userId);
+                        admin.setEmail(email);
+                        admin.setStatus(status);
+                        admin.setType(role);
+                        admin.setUsername(username);
+                        admin.setPassword(password);
+                        user = admin;
+                        
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid user type");
+                        
+                }
             }
             
         }catch(SQLException e){
@@ -233,13 +279,12 @@ public class UserService {
             }
         }
         
-        return customer;
+        return user;
     }
     
-    public static CustomerDTO getCustomerByUsername(String username){
+    public static UserDTO getUserByUsername(String enteredUsername){
         
-        CustomerDTO customer = null;
-        
+        UserDTO user = null;        
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -249,24 +294,68 @@ public class UserService {
         try{ 
             conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
-            pst.setString(1, username);
+            pst.setString(1, enteredUsername.trim());
             rs = pst.executeQuery();
-            
-            
             
             if(rs.next()){
                 
-                customer = new CustomerDTO();
                 
-                customer.setUserID(rs.getLong(1));
-                customer.setEmail(rs.getString(2));
-                customer.setUsername(rs.getString(3));
-                customer.setPassword(rs.getString(4));
-                customer.setName(rs.getString(5));
-                customer.setPassportNo(rs.getString(6));
-                customer.setStatus(rs.getString(7).charAt(0));
-                customer.setAge(Integer.parseInt(rs.getString(8).trim()));
-                customer.setType(rs.getString(9));
+                String role = rs.getString("user_type").trim();
+                
+                Long userId = rs.getLong("user_id");
+                String email = rs.getString("email").trim();
+                String username = rs.getString("username").trim();
+                String password = rs.getString("password").trim();
+                char status = rs.getString("status").charAt(0);
+                
+                switch(role){
+                    case "customer":
+                        CustomerDTO customer = new CustomerDTO();
+                        
+                        customer.setUserID(userId);
+                        customer.setEmail(email);
+                        customer.setUsername(username);
+                        customer.setPassword(password);
+                        customer.setName(rs.getString("name"));
+                        customer.setPassportNo(rs.getString("passport_no"));
+                        customer.setStatus(status);
+                        customer.setAge(Integer.parseInt(rs.getString("age").trim()));
+                        customer.setType(rs.getString(role));
+                        user = customer;
+                        
+                        break;
+                        
+                    case "operator":
+                        OperatorDTO operator = new OperatorDTO();
+                        
+                        operator.setUserID(userId);
+                        operator.setName(rs.getString("name"));
+                        operator.setEmail(email);
+                        operator.setStatus(status);
+                        operator.setUsername(username);
+                        operator.setPassword(password);
+                        operator.setType(role);
+                        user = operator;
+                        
+                        break;
+                        
+                    case "admin":
+                        AdministratorDTO admin = new AdministratorDTO();
+                        
+                        admin.setUserID(userId);
+                        admin.setEmail(email);
+                        admin.setStatus(status);
+                        admin.setType(role);
+                        admin.setUsername(username);
+                        admin.setPassword(password);
+                        user = admin;
+                        
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid user type");
+                        
+                }
             }
             
         }catch(SQLException e){
@@ -291,13 +380,13 @@ public class UserService {
             }
         }
         
-        return customer;
+        return user;
     }
     
-    public static CustomerDTO getCustomerByEmail(String email){
+    public static UserDTO getUserByEmail(String enteredEmail){
         
-        CustomerDTO customer = null;
-        email = email.trim();
+        UserDTO user = null;
+        enteredEmail = enteredEmail.trim();
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -307,22 +396,68 @@ public class UserService {
         try{ 
             conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
-            pst.setString(1, email);
+            pst.setString(1, enteredEmail);
             rs = pst.executeQuery();
             
             if(rs.next()){
+                String role = rs.getString("user_type").trim();
                 
-                customer = new CustomerDTO();
+                Long userId = rs.getLong("user_id");
+                String email = rs.getString("email").trim();
+                String username = rs.getString("username").trim();
+                String password = rs.getString("password").trim();
+                char status = rs.getString("status").charAt(0);
                 
-                customer.setUserID(rs.getLong(1));
-                customer.setEmail(rs.getString(2));
-                customer.setUsername(rs.getString(3));
-                customer.setPassword(rs.getString(4));
-                customer.setName(rs.getString(5));
-                customer.setPassportNo(rs.getString(6));
-                customer.setStatus(rs.getString(7).charAt(0));
-                customer.setAge(Integer.parseInt(rs.getString(8).trim()));
-                customer.setType(rs.getString(9));
+                switch(role){
+                    case "customer":
+                        CustomerDTO customer = new CustomerDTO();
+                        
+                        customer.setUserID(userId);
+                        customer.setEmail(email);
+                        customer.setUsername(username);
+                        customer.setPassword(password);
+                        customer.setName(rs.getString("name"));
+                        customer.setPassportNo(rs.getString("passport_no"));
+                        customer.setStatus(status);
+                        customer.setAge(Integer.parseInt(rs.getString("age").trim()));
+                        customer.setType(role);
+                        user = customer;
+                        
+                        break;
+                        
+                    case "operator":
+                        OperatorDTO operator = new OperatorDTO();
+                        
+                        operator.setUserID(userId);
+                        operator.setName(rs.getString("name"));
+                        operator.setEmail(email);
+                        operator.setStatus(status);
+                        operator.setUsername(username);
+                        operator.setPassword(password);
+                        operator.setType(role);
+                        user = operator;
+                        
+                        break;
+                        
+                    case "admin":
+                        AdministratorDTO admin = new AdministratorDTO();
+                        
+                        admin.setUserID(userId);
+                        admin.setEmail(email);
+                        admin.setStatus(status);
+                        admin.setType(role);
+                        admin.setUsername(username);
+                        admin.setPassword(password);
+                        user = admin;
+                        
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid user type");
+                        
+                }
+                
+                
             }
             
         }catch(SQLException e){
@@ -347,7 +482,7 @@ public class UserService {
             }
         }
         
-        return customer;
+        return user;
     }
     
     public static UserDTO userAuthentication(String username, String password){
@@ -613,7 +748,12 @@ public class UserService {
                     for(String idStr : flightCustomers){
                         if(idStr != null && !idStr.trim().isEmpty()){
                             Long customerId = Long.parseLong(idStr);
-                            CustomerDTO customer = UserService.getCustomerById(customerId,conn);
+                            UserDTO user = UserService.getUserById(customerId,conn);
+                            CustomerDTO customer = null;
+                            if(user.getType().equals("customer")){
+                                customer = (CustomerDTO) user;
+                            }
+                            
                             if(customer != null){
                                 customers.add(customer);
                             }else{

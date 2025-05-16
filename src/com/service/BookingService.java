@@ -4,8 +4,10 @@ import com.DTO.AirportDTO;
 import java.sql.*;
 import com.util.JDBCUtil;
 import com.DTO.BookingDTO;
+import com.DTO.CustomerDTO;
 import com.DTO.FlightDTO;
 import com.DTO.ServiceClass;
+import com.DTO.UserDTO;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +97,7 @@ public class BookingService {
     
     public static List<BookingDTO> displayAllBookings(){
         
+        CustomerDTO customer = null;
         Connection conn = null;
         Statement st = null;
         ResultSet rs = null;
@@ -127,7 +130,11 @@ public class BookingService {
                 booking.setDestination(destinationAirport);
                 booking.setFlight(FlightService.getFlightById(rs.getLong(6)));
                 booking.setSeat(SeatService.getSeatById(rs.getLong(7),conn));
-                booking.setCustomer(UserService.getCustomerById(rs.getLong(8),conn));
+                UserDTO user = UserService.getUserById(rs.getLong(8),conn);
+                if(user.getType().equals("customer")){
+                    customer = (CustomerDTO) user;
+                }
+                booking.setCustomer(customer);
                 
                 bookings.add(booking);
             }
@@ -158,6 +165,7 @@ public class BookingService {
     
     public static List<BookingDTO> viewBookingsByCustomer(long customerId){
         
+        CustomerDTO customer = null;
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -192,7 +200,12 @@ public class BookingService {
                 booking.setDestination(destinationAirport);
                 booking.setFlight(FlightService.getFlightById(rs.getLong(6)));
                 booking.setSeat(SeatService.getSeatById(rs.getLong(7),conn));
-                booking.setCustomer(UserService.getCustomerById(rs.getLong(8),conn));
+                
+                UserDTO user = UserService.getUserById(rs.getLong(8),conn);
+                if(user.getType().equals("customer")){
+                    customer = (CustomerDTO) user;
+                }
+                booking.setCustomer(customer);
                 
                 bookings.add(booking);
             }

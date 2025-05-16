@@ -1,6 +1,7 @@
 package com.gui;
 
 import com.DTO.CustomerDTO;
+import com.DTO.UserDTO;
 import com.service.UserService;
 import java.io.IOException;
 import java.net.URL;
@@ -60,8 +61,11 @@ public class CustomerLoggedInController implements Initializable {
     public void showCustomerDetails(String username){
         
         
-        
-        CustomerDTO customer = UserService.getCustomerByUsername(username);
+        CustomerDTO customer = null;
+        UserDTO user = UserService.getUserByUsername(username);
+        if(user.getType().equals("customer")){
+            customer = (CustomerDTO) user;
+        }
         
         lb_user.setText(customer.getName().split(" ")[0]);
         lb_userId.setText(String.valueOf(customer.getUserID()));

@@ -70,4 +70,17 @@ public class AdminLoggedInController implements Initializable {
         
     }
     
+    @FXML
+    public void loadDeactivateUser(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("deactivate-user.fxml"));
+            AnchorPane pane = loader.load();
+            adminLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
 }

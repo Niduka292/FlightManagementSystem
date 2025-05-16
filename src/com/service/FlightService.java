@@ -4,6 +4,7 @@ import com.DTO.AirportDTO;
 import com.DTO.CustomerDTO;
 import com.DTO.FlightDTO;
 import com.DTO.Seat;
+import com.DTO.UserDTO;
 import java.sql.*;
 import com.util.JDBCUtil;
 import java.time.ZonedDateTime;
@@ -116,6 +117,7 @@ public class FlightService {
     
     public static FlightDTO getFlightById(long flightId){
         
+        CustomerDTO customer = null;
         FlightDTO flight = null;
         String selectQuery = "SELECT * FROM flights_table WHERE flight_id = ?";
         ResultSet rs = null;
@@ -164,7 +166,12 @@ public class FlightService {
                 
                 List<CustomerDTO> customers = new ArrayList<>();
                 for(long customerid : customerIds){
-                    customers.add(UserService.getCustomerById(customerid,conn));
+                    UserDTO user =UserService.getUserById(customerid,conn);
+                    if(user.getType().equals("customer")){
+                        customer = (CustomerDTO) user;
+                    }
+                    
+                    customers.add(customer);
                 }
                 flight.setCustomers(customers);
                 

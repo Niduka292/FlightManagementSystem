@@ -2,6 +2,7 @@ package com.gui;
 
 import com.DTO.BookingDTO;
 import com.DTO.CustomerDTO;
+import com.DTO.UserDTO;
 import com.service.BookingService;
 import com.service.SeatService;
 import com.service.UserService;
@@ -61,8 +62,13 @@ public class ViewUserBookingsController implements Initializable{
 
 
     ObservableList<Booking> initialData(){
+        
+        CustomerDTO customer = null;
         String email = tf_email.getText().trim();
-        CustomerDTO customer = UserService.getCustomerByEmail(email);
+        UserDTO user = UserService.getUserByEmail(email);
+        if(user.getType().equals("customer")){
+            customer = (CustomerDTO) user;
+        }
         
         if(customer == null){
             lb_errorMsg.setText("Invalid email. Try again");
