@@ -39,13 +39,6 @@ public class ViewUserBookingsController implements Initializable{
     private TextField tf_email;
     
     @FXML
-    private Button button_back;
-    @FXML
-    private Button button_enter;
-    @FXML
-    private Button button_logout;
-    
-    @FXML
     private TableColumn<Booking, LocalDate> column_date;
 
     @FXML

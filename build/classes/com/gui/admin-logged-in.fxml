@@ -27,7 +27,7 @@
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="button_generateReports" layoutX="355.0" layoutY="289.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Generate Reoprts">
+      <Button fx:id="button_generateReports" layoutX="355.0" layoutY="289.0" mnemonicParsing="false" onAction="#loadGenerateReport" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Generate Reoprts">
          <font>
             <Font size="13.0" />
          </font></Button>

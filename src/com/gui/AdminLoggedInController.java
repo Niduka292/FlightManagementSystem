@@ -109,4 +109,17 @@ public class AdminLoggedInController implements Initializable {
         
     }
     
+    @FXML
+     public void loadGenerateReport(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("generate-report.fxml"));
+            AnchorPane pane = loader.load();
+            adminLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
 }
