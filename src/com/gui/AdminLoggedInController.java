@@ -135,5 +135,16 @@ public class AdminLoggedInController implements Initializable {
         
     }
     
-    
+    @FXML
+     public void loadSearchForFlights(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("search-for-flights.fxml"));
+            AnchorPane pane = loader.load();
+            adminLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
 }

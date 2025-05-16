@@ -120,7 +120,6 @@ public class GenerateReportController implements Initializable {
     @FXML
     public void handleEnterButtonClick(ActionEvent event){
         
-        System.out.println("Enter bitton clicked");
         column_flightId.setCellValueFactory(new PropertyValueFactory<Flight, Long>("flightId"));
         column_from.setCellValueFactory(new PropertyValueFactory<Flight, String>("departingCode"));
         column_to.setCellValueFactory(new PropertyValueFactory<Flight, String>("destinationCode"));

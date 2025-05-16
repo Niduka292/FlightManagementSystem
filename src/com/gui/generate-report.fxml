@@ -17,7 +17,7 @@
    </stylesheets>
    <children>
       <Button fx:id="button_logout" layoutX="573.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
-      <Label layoutX="111.0" layoutY="25.0" prefHeight="54.0" prefWidth="253.0" text="Report Generation">
+      <Label layoutX="102.0" layoutY="25.0" prefHeight="54.0" prefWidth="253.0" text="Report Generation">
          <font>
             <Font name="Arial" size="27.0" />
          </font>
@@ -47,7 +47,7 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <TableView fx:id="table_report" layoutX="15.0" layoutY="216.0" prefHeight="254.0" prefWidth="638.0">
+      <TableView fx:id="table_report" layoutX="17.0" layoutY="216.0" prefHeight="254.0" prefWidth="638.0">
         <columns>
           <TableColumn fx:id="column_flightId" prefWidth="75.0" text="Flight ID" />
           <TableColumn fx:id="column_from" prefWidth="107.20001220703125" text="From" />
