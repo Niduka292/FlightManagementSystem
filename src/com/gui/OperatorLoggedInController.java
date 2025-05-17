@@ -25,20 +25,68 @@ public class OperatorLoggedInController implements Initializable {
         
     }    
     
+    @FXML
     public void handleButtonClick(ActionEvent event){
         
-        button_logout.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event){
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
-                    AnchorPane pane = loader.load();
-                    operatorLoginPane.getChildren().setAll(pane);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            AnchorPane pane = loader.load();
+            operatorLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    @FXML
+    public void loadCreateBooking(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("create-booking2.fxml"));
+            AnchorPane pane = loader.load();
+            operatorLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    @FXML
+    public void loadGenerateReport(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("generate-reports2.fxml"));
+            AnchorPane pane = loader.load();
+            operatorLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    @FXML
+    public void loadViewBokkings(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("view-bookings2.fxml"));
+            AnchorPane pane = loader.load();
+            operatorLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    @FXML
+    public void loadSearchForFlights(ActionEvent event){
+        
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("search-for-flights2.fxml"));
+            AnchorPane pane = loader.load();
+            operatorLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
     }
     

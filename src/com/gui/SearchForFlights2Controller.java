@@ -32,7 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
-public class SearchForFlightsController implements Initializable {
+public class SearchForFlights2Controller implements Initializable {
 
     @FXML
     private AnchorPane searchFlightPane;
@@ -91,7 +91,10 @@ public class SearchForFlightsController implements Initializable {
             System.out.println(flightDTO.getFlightID());
         }
         
-        return FXCollections.observableArrayList(flightsToDisplay);
+        List<Flight2> testList = new ArrayList<>();
+        testList.add(new Flight2(1L, "LAX", "JFK", ZonedDateTime.now()));
+        
+        return FXCollections.observableArrayList(testList);
     }
     
     public ZonedDateTime convertToZonedDateTime(DatePicker dp, ComboBox<String> cb, String airportCode) {
@@ -139,7 +142,7 @@ public class SearchForFlightsController implements Initializable {
     void handleBackButtonClick(ActionEvent event) {
 
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-logged-in.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("operator-logged-in.fxml"));
             AnchorPane pane = loader.load();
             searchFlightPane.getChildren().setAll(pane);
         }catch(IOException e){

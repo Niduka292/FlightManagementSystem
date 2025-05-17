@@ -144,5 +144,8 @@ public class JDBCUtil {
         ZonedDateTime parsedZdt = ZonedDateTime.parse(dateString, DateTimeFormatter.ISO_ZONED_DATE_TIME);
         return parsedZdt;
     }
+
+    private JDBCUtil() {
+    }
     
 }

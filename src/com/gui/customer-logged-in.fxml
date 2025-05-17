@@ -9,16 +9,13 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="customerLoginPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.CustomerLoggedInController">
-    <stylesheets>
-        <URL value="@logged-in.css" />
-    </stylesheets>
    <children>
       <Label layoutX="371.0" layoutY="66.0" prefHeight="46.0" prefWidth="133.0" text="Welocome ">
          <font>
             <Font name="Arial" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="button_viewBookings" layoutX="361.0" layoutY="383.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="View My Bookings" />
+      <Button fx:id="button_viewBookings" layoutX="361.0" layoutY="383.0" mnemonicParsing="false" onAction="#loadViewBookings" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="View My Bookings" />
       <Button fx:id="button_searchFlights" layoutX="363.0" layoutY="330.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="Search For Flights" />
       <Label layoutX="364.0" layoutY="144.0" prefHeight="26.0" prefWidth="98.0" text="User ID :">
          <font>

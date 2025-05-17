@@ -10,9 +10,6 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="addCustomerPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.AddCustomerController">
-   <stylesheets>
-      <URL value="@admin_logged-in.css" />
-   </stylesheets>
    <children>
       <AnchorPane prefHeight="546.0" prefWidth="314.0" style="-fx-background-color: #ffffff;">
          <children>

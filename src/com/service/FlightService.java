@@ -233,7 +233,7 @@ public class FlightService {
             
             AirportDTO origin = AirportService.getAirportById(originAirportCode, conn);
             AirportDTO destination = AirportService.getAirportById(destinationAirportCode, conn);
-            
+            System.out.println(origin.getAirportCode());
             pst.setString(1, origin.getAirportCode());
             rs = pst.executeQuery();
             
@@ -275,7 +275,8 @@ public class FlightService {
                 flight.setSeats(seats);
                 
                 flight.setAircraft(AircraftService.getAircraftById(rs.getString("aircraft_id")));
-                
+                System.out.println("Between "+timeStart.toInstant()+"and "+timeEnd.toInstant());
+                System.out.println("Departure : "+departureZdt.toInstant());
                 if(destination.equals(flightDestination)){
                     if(departureZdt.isAfter(timeStart) && departureZdt.isBefore(timeEnd)){
                         directFlights.add(flight);

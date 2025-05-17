@@ -42,24 +42,17 @@ public class CustomerLoggedInController implements Initializable {
     
     public void handleButtonClick(ActionEvent event){
         
-        button_logout.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event){
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
-                    AnchorPane pane = loader.load();
-                    customerLoginPane.getChildren().setAll(pane);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+       try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            AnchorPane pane = loader.load();
+            customerLoginPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
     }
     
-    
     public void showCustomerDetails(String username){
-        
         
         CustomerDTO customer = null;
         UserDTO user = UserService.getUserByUsername(username);
@@ -74,6 +67,22 @@ public class CustomerLoggedInController implements Initializable {
         lb_status.setText(String.valueOf(customer.getStatus()));
         
     }
+    
+    @FXML
+    public void loadViewBookings(ActionEvent event){
+        
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("view-my-bookings.fxml"));
+            AnchorPane pane = loader.load();
+            
+            ViewMyBookingsController controller = loader.getController();
+            controller.setEmail(lb_email.getText());
+            
+            customerLoginPane.getChildren().setAll(pane);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    
 }
-
 

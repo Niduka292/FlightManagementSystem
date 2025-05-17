@@ -87,13 +87,14 @@ public class TestClass{
         
         if (seat != null) {
             BookingDTO booking = new BookingDTO(customer1, ServiceClass.FIRST, departingAirport, transit2, flight, seat);
-            
+            /*
             boolean bookingResult = BookingService.createBooking(booking);
             if (bookingResult) {
                 System.out.println("Booking successful.");
             } else {
                 System.out.println("Booking failed. Possible duplicate or seat unavailable.");
             }
+            */
         } else {
             System.out.println("Seat not found: " + seatNo);
         }
@@ -109,7 +110,8 @@ public class TestClass{
         
         //UserService.deactivateUser(45L);
         
-        
+        UserDTO user = UserService.getUserByEmail("adamsmith@example.com");
+        System.out.println(user.getType());
         
         
     }

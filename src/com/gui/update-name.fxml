@@ -10,9 +10,6 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" fx:id="updateNamePane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.UpdateNameController">
-   <stylesheets>
-      <URL value="@admin_logged-in.css" />
-   </stylesheets>
    <children>
       <Button fx:id="button_logout" layoutX="569.0" layoutY="492.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
       <Label layoutX="340.0" layoutY="60.0" prefHeight="54.0" prefWidth="315.0" text="Update Customer Name">

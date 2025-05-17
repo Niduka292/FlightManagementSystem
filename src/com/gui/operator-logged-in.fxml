@@ -8,28 +8,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="operatorLoginPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.AdminLoggedInController">
-   <stylesheets>
-      <URL value="@admin_logged-in.css" />
-   </stylesheets>
+<AnchorPane id="AnchorPane" fx:id="operatorLoginPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.OperatorLoggedInController">
    <children>
       <Label layoutX="361.0" layoutY="71.0" prefHeight="50.0" prefWidth="133.0" text="Welcome!">
          <font>
             <Font name="Arial" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="button_viewBokkings" layoutX="355.0" layoutY="158.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="View Bookings">
+      <Button fx:id="button_viewBokkings" layoutX="355.0" layoutY="158.0" mnemonicParsing="false" onAction="#loadViewBokkings" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="View Bookings">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Button fx:id="button_generateReports" layoutX="355.0" layoutY="226.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Generate Reoprts">
+      <Button fx:id="button_generateReports" layoutX="355.0" layoutY="226.0" mnemonicParsing="false" onAction="#loadGenerateReport" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Generate Reoprts">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
-      <Button fx:id="button_dearchFlights" layoutX="355.0" layoutY="294.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Search For Flights" />
-      <Button fx:id="buttpn_vreateBooking" layoutX="355.0" layoutY="363.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Create a Booking">
+      <Button fx:id="button_dearchFlights" layoutX="355.0" layoutY="294.0" mnemonicParsing="false" onAction="#loadSearchForFlights" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Search For Flights" />
+      <Button fx:id="buttpn_vreateBooking" layoutX="355.0" layoutY="363.0" mnemonicParsing="false" onAction="#loadCreateBooking" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Create a Booking">
          <font>
             <Font size="13.0" />
          </font>

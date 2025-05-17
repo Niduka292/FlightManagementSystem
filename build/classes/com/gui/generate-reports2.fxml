@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="generateReportPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.GenerateReportController">
+<AnchorPane id="AnchorPane" fx:id="generateReportPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.GenerateReport2Controller">
    <children>
       <Button fx:id="button_logout" layoutX="573.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
       <Label layoutX="102.0" layoutY="25.0" prefHeight="54.0" prefWidth="253.0" text="Report Generation">
@@ -45,13 +45,13 @@
          </font>
       </Label>
       <TableView fx:id="table_report" layoutX="17.0" layoutY="216.0" prefHeight="254.0" prefWidth="638.0">
-        <columns>
-          <TableColumn fx:id="column_flightId" prefWidth="75.0" text="Flight ID" />
-          <TableColumn fx:id="column_from" prefWidth="107.20001220703125" text="From" />
+         <columns>
+            <TableColumn fx:id="column_flightId" prefWidth="75.0" text="Flight ID" />
+            <TableColumn fx:id="column_from" prefWidth="107.20001220703125" text="From" />
             <TableColumn fx:id="column_to" prefWidth="112.80000305175781" text="To" />
             <TableColumn fx:id="column_status" prefWidth="112.80000305175781" text="Status" />
             <TableColumn fx:id="column_departure" prefWidth="165.60003662109375" text="Departure At" />
-        </columns>
+         </columns>
       </TableView>
    </children>
 </AnchorPane>
