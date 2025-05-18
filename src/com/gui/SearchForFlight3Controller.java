@@ -32,7 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
-public class SearchForFlightsController implements Initializable {
+public class SearchForFlight3Controller implements Initializable {
 
     @FXML
     private AnchorPane searchFlightPane;
@@ -61,6 +61,15 @@ public class SearchForFlightsController implements Initializable {
     private TableColumn<Flight2, String> column_to;
     @FXML
     private TableColumn<Flight2, ZonedDateTime> column_departure;
+    
+    private String username;
+
+    public void setUsername(String username) {
+        this.username = username;
+        
+    }
+    
+    
     
     ObservableList<Flight2> initialData(){
         
@@ -140,8 +149,11 @@ public class SearchForFlightsController implements Initializable {
     void handleBackButtonClick(ActionEvent event) {
 
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin-logged-in.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("customer-logged-in.fxml"));
             AnchorPane pane = loader.load();
+            CustomerLoggedInController customerLoggedInController = loader.getController();
+            customerLoggedInController.setUsername(username);                    
+            
             searchFlightPane.getChildren().setAll(pane);
         }catch(IOException e){
             e.printStackTrace();

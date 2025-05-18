@@ -74,7 +74,8 @@ public class LoginController implements Initializable {
             
             if(user.getType().equals("customer")) {
                 CustomerLoggedInController customerController = loader.getController();
-                customerController.showCustomerDetails(username);
+                customerController.setUsername(username);
+                //customerController.showCustomerDetails(username);
             } 
             
             

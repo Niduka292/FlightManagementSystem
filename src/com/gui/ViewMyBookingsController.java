@@ -19,11 +19,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
@@ -47,6 +44,12 @@ public class ViewMyBookingsController implements Initializable{
     @FXML
     private TableColumn<Booking, String> column_to;
 
+    private String username;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
     private String email;
 
     public void setEmail(String email) {
@@ -74,6 +77,8 @@ public class ViewMyBookingsController implements Initializable{
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("customer-logged-in.fxml"));
             AnchorPane pane = loader.load();
+            CustomerLoggedInController customerLoggedInController = loader.getController();
+            customerLoggedInController.setUsername(username);
             viewBookingsPane.getChildren().setAll(pane);
         }catch(IOException e){
             e.printStackTrace();

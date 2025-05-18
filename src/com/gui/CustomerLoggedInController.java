@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,12 +33,22 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private Button button_logout;
         
+    private String username;
+
+    public void setUsername(String username) {
+        this.username = username;
+        showCustomerDetails(username);
+    }
+    
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         
     }    
     
+    @FXML
     public void handleButtonClick(ActionEvent event){
         
        try {
@@ -74,7 +83,8 @@ public class CustomerLoggedInController implements Initializable {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("view-my-bookings.fxml"));
             AnchorPane pane = loader.load();
-            
+            ViewMyBookingsController viewMyBookingsController = loader.getController();
+            viewMyBookingsController.setUsername(username);            
             ViewMyBookingsController controller = loader.getController();
             controller.setEmail(lb_email.getText());
             
@@ -83,6 +93,22 @@ public class CustomerLoggedInController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    public void loadSearchForFlights(ActionEvent event){
+        
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("search-for-flight3.fxml"));
+            AnchorPane pane = loader.load();
+            SearchForFlight3Controller searchForFlightsController = loader.getController();
+            searchForFlightsController.setUsername(username);
+            
+            customerLoginPane.getChildren().setAll(pane);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    
     
 }
 

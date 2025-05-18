@@ -70,6 +70,7 @@ public class SearchForFlights2Controller implements Initializable {
         ZonedDateTime startTime = convertToZonedDateTime(dp_startDate,cb_startTime, origin);
         ZonedDateTime endTime = convertToZonedDateTime(dp_endDate, cb_endTime, destination);
         
+        
         List<FlightDTO> directFlights = FlightService.getDirectFlightsAvailable(origin, destination, startTime, endTime);
         List<FlightDTO> transitFlights = FlightService.getTransitFlightsAvailable(origin, destination, startTime, endTime);
         
@@ -91,10 +92,7 @@ public class SearchForFlights2Controller implements Initializable {
             System.out.println(flightDTO.getFlightID());
         }
         
-        List<Flight2> testList = new ArrayList<>();
-        testList.add(new Flight2(1L, "LAX", "JFK", ZonedDateTime.now()));
-        
-        return FXCollections.observableArrayList(testList);
+        return FXCollections.observableArrayList(flightsToDisplay);
     }
     
     public ZonedDateTime convertToZonedDateTime(DatePicker dp, ComboBox<String> cb, String airportCode) {

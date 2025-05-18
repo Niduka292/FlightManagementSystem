@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -16,7 +15,7 @@
          </font>
       </Label>
       <Button fx:id="button_viewBookings" layoutX="361.0" layoutY="383.0" mnemonicParsing="false" onAction="#loadViewBookings" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="View My Bookings" />
-      <Button fx:id="button_searchFlights" layoutX="363.0" layoutY="330.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="Search For Flights" />
+      <Button fx:id="button_searchFlights" layoutX="363.0" layoutY="330.0" mnemonicParsing="false" onAction="#loadSearchForFlights" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="Search For Flights" />
       <Label layoutX="364.0" layoutY="144.0" prefHeight="26.0" prefWidth="98.0" text="User ID :">
          <font>
             <Font name="Arial" size="14.0" />

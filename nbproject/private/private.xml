@@ -8,6 +8,7 @@
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/MainApp.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/AddAdminstratorController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/generate-report.fxml</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/view-my-bookings.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/search-for-flights2.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/service/FlightService.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/update-age.fxml</file>
@@ -25,10 +26,12 @@
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/update-name.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/Booking.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/SearchForFlights2Controller.java</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/create-booking.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/HelloController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/UpdatePassportNoController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/GenerateReportController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/ViewBookings2Controller.java</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/create-user.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/CreateUserController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/customer-logged-in.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/CustomerLoggedInController.java</file>
@@ -46,10 +49,13 @@
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/ActivateUserController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/generate-reports2.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/add-adminstrator.fxml</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/add-customer.fxml</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/activate-user.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/GenerateReport2Controller.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/util/ScenesUtil.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/test/TestClass.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/ViewMyBookingsController.java</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/login.fxml</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/DTO/UserDTO.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/UpdateNameController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/service/SeatService.java</file>
@@ -60,6 +66,7 @@
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/ViewUserBookingsController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/CreateBookingController.java</file>
             <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/AddOperatorController.java</file>
+            <file>file:/C:/Uni%20Workspace/Netbeans%2021/FlightManagementSystem/src/com/gui/deactivate-user.fxml</file>
         </group>
     </open-files>
 </project-private>
