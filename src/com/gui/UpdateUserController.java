@@ -1,35 +1,13 @@
 package com.gui;
 
-import com.DTO.CustomerDTO;
-import com.DTO.UserDTO;
-import com.service.UserService;
 import com.util.ScenesUtil;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 public class UpdateUserController {
-
-    @FXML
-    private Button button_back;
-
-    @FXML
-    private Button button_logout;
-
-    @FXML
-    private Button button_updateAge;
-
-    @FXML
-    private Button button_updateEmail;
-
-    @FXML
-    private Button button_updateName;
-
-    @FXML
-    private Button button_updatePassportNo;
 
     @FXML
     private AnchorPane updateUserPane;
