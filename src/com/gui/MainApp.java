@@ -12,7 +12,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         
-        Scene scene = new Scene(root, 670, 530);
+        Scene scene = new Scene(root, 670, 546);
         stage.setTitle("Ariplane Ticket Booking System");
         stage.setScene(scene);
         stage.show();

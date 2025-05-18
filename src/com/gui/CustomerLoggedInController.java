@@ -69,11 +69,18 @@ public class CustomerLoggedInController implements Initializable {
             customer = (CustomerDTO) user;
         }
         
+        String statusStr = null;
+        if(customer.getStatus() == 'A'){
+            statusStr = "Active";
+        }else{
+            statusStr = "Inactive";
+        }
+        
         lb_user.setText(customer.getName().split(" ")[0]);
         lb_userId.setText(String.valueOf(customer.getUserID()));
         lb_email.setText(customer.getEmail());
         lb_passportno.setText(customer.getPassportNo());
-        lb_status.setText(String.valueOf(customer.getStatus()));
+        lb_status.setText(statusStr);
         
     }
     
