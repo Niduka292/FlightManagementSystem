@@ -10,10 +10,10 @@ public class MainApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         
-        Scene scene = new Scene(root, 670, 530);
-        stage.setTitle("Hello");
+        Scene scene = new Scene(root, 670, 546);
+        stage.setTitle("Ariplane Ticket Booking System");
         stage.setScene(scene);
         stage.show();
     }

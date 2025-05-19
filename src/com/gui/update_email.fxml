@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="updateEmailPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.UpdateEmailController">
+   <children>
+      <Button fx:id="button_logout" layoutX="569.0" layoutY="492.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
+      <Label layoutX="361.0" layoutY="44.0" prefHeight="54.0" prefWidth="264.0" text="Update User Email">
+         <font>
+            <Font name="Arial" size="27.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tf_userId" layoutX="365.0" layoutY="182.0" prefHeight="26.0" prefWidth="255.0" />
+      <Label layoutX="367.0" layoutY="155.0" prefHeight="26.0" prefWidth="83.0" text="User ID : ">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="button_enter" layoutX="370.0" layoutY="356.0" mnemonicParsing="false" onAction="#handleEnterButtonClick" prefHeight="30.0" prefWidth="72.0" style="-fx-background-color: #01bb01;" text="Enter" textFill="WHITE" />
+      <Label fx:id="lb_errorMsg" layoutX="68.0" layoutY="228.0" prefHeight="18.0" prefWidth="239.0" textFill="RED" />
+      <Label fx:id="lb_successMsg" layoutX="68.0" layoutY="209.0" prefHeight="18.0" prefWidth="239.0" textFill="#00bc03" />
+      <Label layoutX="370.0" layoutY="234.0" text="Email :">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tf_email" layoutX="367.0" layoutY="260.0" prefHeight="26.0" prefWidth="264.0" />
+      <Label fx:id="lb_errorMsg1" layoutX="370.0" layoutY="287.0" prefHeight="18.0" prefWidth="230.0" textFill="RED" />
+      <Label fx:id="lb_successMsg1" layoutX="370.0" layoutY="305.0" prefHeight="18.0" prefWidth="230.0" textFill="#05ae21" />
+      <AnchorPane prefHeight="546.0" prefWidth="333.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fitHeight="177.0" fitWidth="214.0" layoutX="93.0" layoutY="158.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/graphic-cartoon-character-system-update-vector-34678927.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="button_back" layoutX="34.0" layoutY="43.0" mnemonicParsing="false" onAction="#handleBackButtonClick" prefHeight="27.0" prefWidth="33.0" style="-fx-background-color: #c8d9de;" text="⬅" textFill="#01035b">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Label layoutX="36.0" layoutY="336.0" prefHeight="42.0" prefWidth="268.0" text=" Flight Management System" textAlignment="CENTER" textFill="#142161">
+         <font>
+            <Font name="Calibri" size="23.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -187,11 +187,9 @@ public class UserService {
     
     
     
-    public static CustomerDTO getCustomerById(long userId, Connection conn){
+    public static UserDTO getUserById(long enteredUserId, Connection conn){
         
-        UserDTO user = new UserDTO();
-        CustomerDTO customer = (CustomerDTO) user;
-        
+        UserDTO user = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
         
@@ -200,19 +198,66 @@ public class UserService {
         try{
             
             pst = conn.prepareStatement(selectQuery);
-            pst.setLong(1, userId);
+            pst.setLong(1, enteredUserId);
             rs = pst.executeQuery();
             
-            while(rs.next()){
-                customer.setUserID(rs.getLong(1));
-                customer.setEmail(rs.getString(2));
-                customer.setUsername(rs.getString(3));
-                customer.setPassword(rs.getString(4));
-                customer.setName(rs.getString(5));
-                customer.setPassportNo(rs.getString(6));
-                customer.setStatus(rs.getString(7).charAt(0));
-                customer.setAge(Integer.parseInt(rs.getString(8)));
-                customer.setType(rs.getString(9));
+            if(rs.next()){
+                String role = rs.getString("user_type").trim();
+                
+                Long userId = rs.getLong("user_id");
+                String email = rs.getString("email").trim();
+                String username = rs.getString("username").trim();
+                String password = rs.getString("password").trim();
+                char status = rs.getString("status").charAt(0);
+                
+                switch(role){
+                    case "customer":
+                        CustomerDTO customer = new CustomerDTO();
+                        
+                        customer.setUserID(userId);
+                        customer.setEmail(email);
+                        customer.setUsername(username);
+                        customer.setPassword(password);
+                        customer.setName(rs.getString("name"));
+                        customer.setPassportNo(rs.getString("passport_no"));
+                        customer.setStatus(status);
+                        customer.setAge(Integer.parseInt(rs.getString("age").trim()));
+                        customer.setType(role);
+                        user = customer;
+                        
+                        break;
+                        
+                    case "operator":
+                        OperatorDTO operator = new OperatorDTO();
+                        
+                        operator.setUserID(userId);
+                        operator.setName(rs.getString("name"));
+                        operator.setEmail(email);
+                        operator.setStatus(status);
+                        operator.setUsername(username);
+                        operator.setPassword(password);
+                        operator.setType(role);
+                        user = operator;
+                        
+                        break;
+                        
+                    case "admin":
+                        AdministratorDTO admin = new AdministratorDTO();
+                        
+                        admin.setUserID(userId);
+                        admin.setEmail(email);
+                        admin.setStatus(status);
+                        admin.setType(role);
+                        admin.setUsername(username);
+                        admin.setPassword(password);
+                        user = admin;
+                        
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid user type");
+                        
+                }
             }
             
         }catch(SQLException e){
@@ -234,14 +279,12 @@ public class UserService {
             }
         }
         
-        return customer;
+        return user;
     }
     
-    public static CustomerDTO getCustomerByUsername(String username){
+    public static UserDTO getUserByUsername(String enteredUsername){
         
-        CustomerDTO customer = null;
-        //UserDTO user = new UserDTO();
-        
+        UserDTO user = null;        
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -251,24 +294,68 @@ public class UserService {
         try{ 
             conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(selectQuery);
-            pst.setString(1, username);
+            pst.setString(1, enteredUsername.trim());
             rs = pst.executeQuery();
-            
-            
             
             if(rs.next()){
                 
-                customer = new CustomerDTO();
                 
-                customer.setUserID(rs.getLong(1));
-                customer.setEmail(rs.getString(2));
-                customer.setUsername(rs.getString(3));
-                customer.setPassword(rs.getString(4));
-                customer.setName(rs.getString(5));
-                customer.setPassportNo(rs.getString(6));
-                customer.setStatus(rs.getString(7).charAt(0));
-                customer.setAge(Integer.parseInt(rs.getString(8).trim()));
-                customer.setType(rs.getString(9));
+                String role = rs.getString("user_type").trim();
+                
+                Long userId = rs.getLong("user_id");
+                String email = rs.getString("email").trim();
+                String username = rs.getString("username").trim();
+                String password = rs.getString("password").trim();
+                char status = rs.getString("status").charAt(0);
+                
+                switch(role){
+                    case "customer":
+                        CustomerDTO customer = new CustomerDTO();
+                        
+                        customer.setUserID(userId);
+                        customer.setEmail(email);
+                        customer.setUsername(username);
+                        customer.setPassword(password);
+                        customer.setName(rs.getString("name"));
+                        customer.setPassportNo(rs.getString("passport_no"));
+                        customer.setStatus(status);
+                        customer.setAge(Integer.parseInt(rs.getString("age").trim()));
+                        customer.setType(role);
+                        user = customer;
+                        
+                        break;
+                        
+                    case "operator":
+                        OperatorDTO operator = new OperatorDTO();
+                        
+                        operator.setUserID(userId);
+                        operator.setName(rs.getString("name"));
+                        operator.setEmail(email);
+                        operator.setStatus(status);
+                        operator.setUsername(username);
+                        operator.setPassword(password);
+                        operator.setType(role);
+                        user = operator;
+                        
+                        break;
+                        
+                    case "admin":
+                        AdministratorDTO admin = new AdministratorDTO();
+                        
+                        admin.setUserID(userId);
+                        admin.setEmail(email);
+                        admin.setStatus(status);
+                        admin.setType(role);
+                        admin.setUsername(username);
+                        admin.setPassword(password);
+                        user = admin;
+                        
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid user type");
+                        
+                }
             }
             
         }catch(SQLException e){
@@ -293,7 +380,109 @@ public class UserService {
             }
         }
         
-        return customer;
+        return user;
+    }
+    
+    public static UserDTO getUserByEmail(String enteredEmail){
+        
+        UserDTO user = null;
+        enteredEmail = enteredEmail.trim();
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        
+        String selectQuery = "SELECT * FROM users_table WHERE email = ?";
+        
+        try{ 
+            conn = JDBCUtil.getConnection();
+            pst = conn.prepareStatement(selectQuery);
+            pst.setString(1, enteredEmail);
+            rs = pst.executeQuery();
+            
+            if(rs.next()){
+                String role = rs.getString("user_type").trim();
+                
+                Long userId = rs.getLong("user_id");
+                String email = rs.getString("email").trim();
+                String username = rs.getString("username").trim();
+                String password = rs.getString("password").trim();
+                char status = rs.getString("status").charAt(0);
+                
+                switch(role){
+                    case "customer":
+                        CustomerDTO customer = new CustomerDTO();
+                        
+                        customer.setUserID(userId);
+                        customer.setEmail(email);
+                        customer.setUsername(username);
+                        customer.setPassword(password);
+                        customer.setName(rs.getString("name"));
+                        customer.setPassportNo(rs.getString("passport_no"));
+                        customer.setStatus(status);
+                        customer.setAge(Integer.parseInt(rs.getString("age").trim()));
+                        customer.setType(role);
+                        user = customer;
+                        
+                        break;
+                        
+                    case "operator":
+                        OperatorDTO operator = new OperatorDTO();
+                        
+                        operator.setUserID(userId);
+                        operator.setName(rs.getString("name"));
+                        operator.setEmail(email);
+                        operator.setStatus(status);
+                        operator.setUsername(username);
+                        operator.setPassword(password);
+                        operator.setType(role);
+                        user = operator;
+                        
+                        break;
+                        
+                    case "admin":
+                        AdministratorDTO admin = new AdministratorDTO();
+                        
+                        admin.setUserID(userId);
+                        admin.setEmail(email);
+                        admin.setStatus(status);
+                        admin.setType(role);
+                        admin.setUsername(username);
+                        admin.setPassword(password);
+                        user = admin;
+                        
+                        break;
+                        
+                    default:
+                        System.out.println("Invalid user type");
+                        
+                }
+                
+                
+            }
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(pst != null){
+                    pst.close();
+                }
+                
+                if(conn != null){
+                    conn.close();
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        return user;
     }
     
     public static UserDTO userAuthentication(String username, String password){
@@ -558,8 +747,13 @@ public class UserService {
                     
                     for(String idStr : flightCustomers){
                         if(idStr != null && !idStr.trim().isEmpty()){
-                            Long customerId = Long.parseLong(idStr);
-                            CustomerDTO customer = UserService.getCustomerById(customerId,conn);
+                            Long customerId = Long.valueOf(idStr.trim());
+                            UserDTO user = UserService.getUserById(customerId,conn);
+                            CustomerDTO customer = null;
+                            if(user.getType().equals("customer")){
+                                customer = (CustomerDTO) user;
+                            }
+                            
                             if(customer != null){
                                 customers.add(customer);
                             }else{
@@ -571,6 +765,8 @@ public class UserService {
             }
             
         }catch(SQLException e){
+            e.printStackTrace();
+        }catch(NumberFormatException e){
             e.printStackTrace();
         }finally{
             try{
@@ -588,10 +784,11 @@ public class UserService {
         return customers;
     }
     
-    public static void updateCustomerEmail(Long customerId, String newEmail){
+    public static boolean updateEmail(Long userId, String newEmail){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET email = ? WHERE user_id = ?";
         
@@ -599,11 +796,12 @@ public class UserService {
             conn = JDBCUtil.getConnection();
             pst = conn.prepareStatement(updateQuery);
             pst.setString(1, newEmail);
-            pst.setLong(2, customerId);
+            pst.setLong(2, userId);
             int rowsUpdated = pst.executeUpdate();
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -620,12 +818,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateCustomerUsername(String newUsername, Long customerId){
+    public static boolean updateUsername(String newUsername, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET username = ? WHERE user_id = ?";
         
@@ -638,6 +838,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -654,12 +855,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateCustomerAge(int newAge, Long customerId){
+    public static boolean updateCustomerAge(int newAge, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET age = ? WHERE user_id = ?";
         
@@ -672,6 +875,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -688,12 +892,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateCustomerName(String newName, Long customerId){
+    public static boolean updateCustomerName(String newName, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET name = ? WHERE user_id = ?";
         
@@ -706,6 +912,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -722,12 +929,14 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
-    public static void updateCustomerPassportNo(String newPassportNo, Long customerId){
+    public static boolean updateCustomerPassportNo(String newPassportNo, Long customerId){
         
         Connection conn = null;
         PreparedStatement pst = null;
+        boolean updateSuccess = false;
         
         String updateQuery = "UPDATE users_table SET passport_no = ? WHERE user_id = ?";
         
@@ -740,6 +949,7 @@ public class UserService {
             
             if(rowsUpdated > 0){
                 System.out.println("Details updated successfully");
+                updateSuccess = true;
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -756,6 +966,7 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+        return updateSuccess;
     }
     
 }

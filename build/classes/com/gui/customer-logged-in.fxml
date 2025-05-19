@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="customerLoginPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.CustomerLoggedInController">
+   <children>
+      <Label layoutX="371.0" layoutY="66.0" prefHeight="46.0" prefWidth="133.0" text="Welocome ">
+         <font>
+            <Font name="Arial" size="26.0" />
+         </font>
+      </Label>
+      <Button fx:id="button_viewBookings" layoutX="361.0" layoutY="383.0" mnemonicParsing="false" onAction="#loadViewBookings" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="View My Bookings" />
+      <Button fx:id="button_searchFlights" layoutX="363.0" layoutY="330.0" mnemonicParsing="false" onAction="#loadSearchForFlights" prefHeight="15.0" prefWidth="116.0" style="-fx-background-color: #005ac1; -fx-text-fill: #ffffff;" text="Search For Flights" />
+      <Label layoutX="364.0" layoutY="144.0" prefHeight="26.0" prefWidth="91.0" text="User ID :">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_userId" layoutX="472.0" layoutY="144.0" prefHeight="26.0" prefWidth="160.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="364.0" layoutY="184.0" prefHeight="26.0" prefWidth="91.0" text="Passport No : ">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="363.0" layoutY="224.0" prefHeight="26.0" prefWidth="91.0" text="Email :">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_passportno" layoutX="472.0" layoutY="184.0" prefHeight="26.0" prefWidth="160.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_email" layoutX="472.0" layoutY="224.0" prefHeight="26.0" prefWidth="167.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="364.0" layoutY="263.0" prefHeight="26.0" prefWidth="91.0" text="Status:">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lb_status" layoutX="473.0" layoutY="263.0" prefHeight="26.0" prefWidth="141.0">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="-2.0" layoutY="-1.0" prefHeight="546.0" prefWidth="318.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fitHeight="173.0" fitWidth="234.0" layoutX="69.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/images.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="23.0" layoutY="326.0" prefHeight="42.0" prefWidth="268.0" text=" Flight Management System" textAlignment="CENTER" textFill="#142161">
+               <font>
+                  <Font name="Calibri" size="23.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Button fx:id="button_logout" layoutX="568.0" layoutY="454.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
+      <Label fx:id="lb_user" layoutX="498.0" layoutY="66.0" prefHeight="46.0" prefWidth="133.0">
+         <font>
+            <Font name="Arial" size="26.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

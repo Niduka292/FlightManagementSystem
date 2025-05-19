@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="operatorLoginPane" prefHeight="546.0" prefWidth="670.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.OperatorLoggedInController">
+   <children>
+      <Label layoutX="361.0" layoutY="71.0" prefHeight="50.0" prefWidth="133.0" text="Welcome!">
+         <font>
+            <Font name="Arial" size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="button_viewBokkings" layoutX="355.0" layoutY="158.0" mnemonicParsing="false" onAction="#loadViewBokkings" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="View Bookings">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="button_generateReports" layoutX="355.0" layoutY="226.0" mnemonicParsing="false" onAction="#loadGenerateReport" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Generate Reoprts">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="button_dearchFlights" layoutX="355.0" layoutY="294.0" mnemonicParsing="false" onAction="#loadSearchForFlights" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Search For Flights" />
+      <Button fx:id="buttpn_vreateBooking" layoutX="355.0" layoutY="363.0" mnemonicParsing="false" onAction="#loadCreateBooking" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Create a Booking">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <AnchorPane prefHeight="546.0" prefWidth="322.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <ImageView fitHeight="189.0" fitWidth="228.0" layoutX="73.0" layoutY="149.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/17576964.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Button fx:id="button_logout" layoutX="559.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
+      <Label layoutX="33.0" layoutY="336.0" prefHeight="42.0" prefWidth="268.0" text=" Flight Management System" textAlignment="CENTER" textFill="#142161">
+         <font>
+            <Font name="Calibri" size="23.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
