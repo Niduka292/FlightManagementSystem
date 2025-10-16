@@ -41,7 +41,7 @@ SETUP INSTRUCTIONS:
 2. Import the PostgreSQL database using the provided .sql file (use pgAdmin or command line).
 3. Open the project in NetBeans or your preferred Java IDE.
 4. Configure database credentials in the DB connection class.
-5. Run the main class to start the application.
+5. Run the MainApp class to start the application.
 
 LOGIN DETAILS (for testing):
 ----------------------------
