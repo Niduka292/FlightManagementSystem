@@ -5,13 +5,9 @@ import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 
 public class JDBCUtil {
     

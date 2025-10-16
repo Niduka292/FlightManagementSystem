@@ -22,17 +22,17 @@
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="buttton_updateUser" layoutX="355.0" layoutY="226.0" mnemonicParsing="false" onAction="#loadUpdateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Update User" />
-      <Button fx:id="button_deactivateUser" layoutX="507.0" layoutY="226.0" mnemonicParsing="false" onAction="#loadDeactivateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Deactivate User">
+      <Button fx:id="buttton_updateUser" layoutX="355.0" layoutY="223.0" mnemonicParsing="false" onAction="#loadUpdateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Update User" />
+      <Button fx:id="button_deactivateUser" layoutX="507.0" layoutY="223.0" mnemonicParsing="false" onAction="#loadDeactivateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Deactivate User">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="button_generateReports" layoutX="355.0" layoutY="289.0" mnemonicParsing="false" onAction="#loadGenerateReport" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Generate Reoprts">
+      <Button fx:id="button_generateReports" layoutX="355.0" layoutY="287.0" mnemonicParsing="false" onAction="#loadGenerateReport" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Generate Reoprts">
          <font>
             <Font size="13.0" />
          </font></Button>
-      <Button fx:id="button_searchFlights" layoutX="355.0" layoutY="355.0" mnemonicParsing="false" onAction="#loadSearchForFlights" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Search For Flights" />
-      <Button fx:id="button_createBooking" layoutX="507.0" layoutY="289.0" mnemonicParsing="false" onAction="#loadCreateBooking" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Create a Booking">
+      <Button fx:id="button_searchFlights" layoutX="355.0" layoutY="351.0" mnemonicParsing="false" onAction="#loadSearchForFlights" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Search For Flights" />
+      <Button fx:id="button_createBooking" layoutX="507.0" layoutY="287.0" mnemonicParsing="false" onAction="#loadCreateBooking" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Create a Booking">
          <font>
             <Font size="13.0" />
          </font></Button>
@@ -51,10 +51,11 @@
          </children>
       </AnchorPane>
       <Button fx:id="button_logout" layoutX="559.0" layoutY="452.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-color: #ff9700; -fx-text-fill: #ffffff; -fx-border-color: #bd7000; -fx-border-radius: 3px;" text="Logout" />
-      <Button fx:id="button_activateUser" layoutX="507.0" layoutY="355.0" mnemonicParsing="false" onAction="#loadActivateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Activate User">
+      <Button fx:id="button_activateUser" layoutX="507.0" layoutY="351.0" mnemonicParsing="false" onAction="#loadActivateUser" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Activate User">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
+      <Button fx:id="button_scheduleFlight" layoutX="355.0" layoutY="413.0" mnemonicParsing="false" onAction="#loadScheduleFlight" prefHeight="36.0" prefWidth="122.0" style="-fx-background-color: #276bb0; -fx-text-fill: #ffffff;" text="Schedule Flight" />
    </children>
 </AnchorPane>

@@ -140,13 +140,13 @@ public class TestClass{
         List<AirportDTO> transitList3 = new ArrayList<>();
         transitList3.add(transit1);
         
-        ZonedDateTime zdt4 = baseTime.plusDays(30); // 00:00 next day
-        //FlightDTO flight4 = new FlightDTO(zdt4, airport2, transit2, aircraft,transitList3 );
-        //flight4.setFlightID(14);
+        ZonedDateTime zdt4 = baseTime.plusDays(150); // 00:00 next day
+        FlightDTO flight4 = new FlightDTO(zdt4, airport2, transit2, aircraft,transitList3 );
+        flight4.setFlightID(14);
 
         //boolean flightAdded2 = FlightService.scheduleFlight(flight2);
-        boolean flightAdded3 = FlightService.scheduleFlight(flight3);
-        //boolean flightAdded4 = FlightService.scheduleFlight(flight4);
+        //boolean flightAdded3 = FlightService.scheduleFlight(flight3);
+        boolean flightAdded4 = FlightService.scheduleFlight(flight4);
         /*
         if (flightAdded2 && flightAdded3 && flightAdded4) {
             System.out.println("Flights scheduled successfully.");
@@ -154,45 +154,45 @@ public class TestClass{
             System.out.println("Flights scheduling failed.");
         }*/
 
-        System.out.println(flightAdded3);
-        //System.out.println(flightAdded4);
+        //System.out.println(flightAdded3);
+        System.out.println(flightAdded4);
         
     }
     
     public static void insertAllAirports() {
-    // Asia airports
-    AirportService.addAirport(new AirportDTO("Tokyo International Airport", "Tokyo", "Japan", "Asia"));
-    AirportService.addAirport(new AirportDTO("Shanghai Pudong Airport", "Shanghai", "China", "Asia"));
-    AirportService.addAirport(new AirportDTO("Seoul Incheon Airport", "Seoul", "South Korea", "Asia"));
-    AirportService.addAirport(new AirportDTO("Jakarta Soekarno-Hatta", "Jakarta", "Indonesia", "Asia"));
-    AirportService.addAirport(new AirportDTO("Indira Gandhi International Airport", "Delhi", "India", "Asia")); // Default Asia
+        // Asia airports
+        AirportService.addAirport(new AirportDTO("Tokyo International Airport", "Tokyo", "Japan", "Asia"));
+        AirportService.addAirport(new AirportDTO("Shanghai Pudong Airport", "Shanghai", "China", "Asia"));
+        AirportService.addAirport(new AirportDTO("Seoul Incheon Airport", "Seoul", "South Korea", "Asia"));
+        AirportService.addAirport(new AirportDTO("Jakarta Soekarno-Hatta", "Jakarta", "Indonesia", "Asia"));
+        AirportService.addAirport(new AirportDTO("Indira Gandhi International Airport", "Delhi", "India", "Asia")); // Default Asia
 
-    // Europe airports
-    AirportService.addAirport(new AirportDTO("Charles de Gaulle Airport", "Paris", "France", "Europe"));
-    AirportService.addAirport(new AirportDTO("Adolfo Suárez Madrid–Barajas Airport", "Madrid", "Spain", "Europe"));
-    AirportService.addAirport(new AirportDTO("Leonardo da Vinci–Fiumicino Airport", "Rome", "Italy", "Europe"));
-    AirportService.addAirport(new AirportDTO("Sheremetyevo International Airport", "Moscow", "Russia", "Europe"));
-    AirportService.addAirport(new AirportDTO("Berlin Tegel Airport", "Berlin", "Germany", "Europe")); // Default Europe
+        // Europe airports
+        AirportService.addAirport(new AirportDTO("Charles de Gaulle Airport", "Paris", "France", "Europe"));
+        AirportService.addAirport(new AirportDTO("Adolfo Suárez Madrid–Barajas Airport", "Madrid", "Spain", "Europe"));
+        AirportService.addAirport(new AirportDTO("Leonardo da Vinci–Fiumicino Airport", "Rome", "Italy", "Europe"));
+        AirportService.addAirport(new AirportDTO("Sheremetyevo International Airport", "Moscow", "Russia", "Europe"));
+        AirportService.addAirport(new AirportDTO("Berlin Tegel Airport", "Berlin", "Germany", "Europe")); // Default Europe
 
-    // America airports
-    AirportService.addAirport(new AirportDTO("O'Hare International Airport", "Chicago", "USA", "America"));
-    AirportService.addAirport(new AirportDTO("George Bush Intercontinental Airport", "Houston", "USA", "America"));
-    AirportService.addAirport(new AirportDTO("Los Angeles International Airport", "Los Angeles", "USA", "America"));
-    AirportService.addAirport(new AirportDTO("Phoenix Sky Harbor International Airport", "Phoenix", "USA", "America"));
-    AirportService.addAirport(new AirportDTO("Guarulhos International Airport", "São Paulo", "Brazil", "America"));
-    AirportService.addAirport(new AirportDTO("Ministro Pistarini International Airport", "Buenos Aires", "Argentina", "America"));
-    AirportService.addAirport(new AirportDTO("John F. Kennedy International Airport", "New York", "USA", "America")); // Default America
+        // America airports
+        AirportService.addAirport(new AirportDTO("O'Hare International Airport", "Chicago", "USA", "America"));
+        AirportService.addAirport(new AirportDTO("George Bush Intercontinental Airport", "Houston", "USA", "America"));
+        AirportService.addAirport(new AirportDTO("Los Angeles International Airport", "Los Angeles", "USA", "America"));
+        AirportService.addAirport(new AirportDTO("Phoenix Sky Harbor International Airport", "Phoenix", "USA", "America"));
+        AirportService.addAirport(new AirportDTO("Guarulhos International Airport", "São Paulo", "Brazil", "America"));
+        AirportService.addAirport(new AirportDTO("Ministro Pistarini International Airport", "Buenos Aires", "Argentina", "America"));
+        AirportService.addAirport(new AirportDTO("John F. Kennedy International Airport", "New York", "USA", "America")); // Default America
 
-    // Africa airports
-    AirportService.addAirport(new AirportDTO("Cairo International Airport", "Cairo", "Egypt", "Africa"));
-    AirportService.addAirport(new AirportDTO("Jomo Kenyatta International Airport", "Nairobi", "Kenya", "Africa"));
-    AirportService.addAirport(new AirportDTO("Murtala Muhammed International Airport", "Lagos", "Nigeria", "Africa"));
-    AirportService.addAirport(new AirportDTO("OR.Tambo International Airport", "Johannesburg", "South Africa", "Africa"));
+        // Africa airports
+        AirportService.addAirport(new AirportDTO("Cairo International Airport", "Cairo", "Egypt", "Africa"));
+        AirportService.addAirport(new AirportDTO("Jomo Kenyatta International Airport", "Nairobi", "Kenya", "Africa"));
+        AirportService.addAirport(new AirportDTO("Murtala Muhammed International Airport", "Lagos", "Nigeria", "Africa"));
+        AirportService.addAirport(new AirportDTO("OR.Tambo International Airport", "Johannesburg", "South Africa", "Africa"));
 
-    // Australia/Oceania airports
-    AirportService.addAirport(new AirportDTO("Sydney Kingsford Smith Airport", "Sydney", "Australia", "Australia"));
-    AirportService.addAirport(new AirportDTO("Perth Airport", "Perth", "Australia", "Australia"));
-    AirportService.addAirport(new AirportDTO("Auckland Airport", "Auckland", "New Zealand", "Oceania"));
-}
-
+        // Australia/Oceania airports
+        AirportService.addAirport(new AirportDTO("Sydney Kingsford Smith Airport", "Sydney", "Australia", "Australia"));
+        AirportService.addAirport(new AirportDTO("Perth Airport", "Perth", "Australia", "Australia"));
+        AirportService.addAirport(new AirportDTO("Auckland Airport", "Auckland", "New Zealand", "Oceania"));
+    }
+    
 }

@@ -1,9 +1,5 @@
 package com.DTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.service.SeatService;
-
 public class Seat {
     
     private Long seatId;

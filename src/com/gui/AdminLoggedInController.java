@@ -34,6 +34,8 @@ public class AdminLoggedInController implements Initializable {
     private Button button_createBooking;
     @FXML
     private Button button_searchFlights;
+    @FXML
+    private Button button_scheduleFlight;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -136,7 +138,7 @@ public class AdminLoggedInController implements Initializable {
     }
     
     @FXML
-     public void loadSearchForFlights(ActionEvent event){
+    public void loadSearchForFlights(ActionEvent event){
         
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("search-for-flights.fxml"));
@@ -147,4 +149,11 @@ public class AdminLoggedInController implements Initializable {
         }
         
     }
+     
+    @FXML
+    public void loadScheduleFlight(ActionEvent event){
+        
+        
+    }
+     
 }
